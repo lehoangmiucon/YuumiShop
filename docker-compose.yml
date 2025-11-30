@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"  # Chạy web ở cổng 8080 để tránh đụng port máy ní
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - yuumi-network
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: yuumishop
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql # Tự động chạy file SQL fix ảnh
+    networks:
+      - yuumi-network
+
+networks:
+  yuumi-network:
+
+volumes:
+  db_data:
