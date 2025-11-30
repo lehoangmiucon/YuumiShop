@@ -112,6 +112,6 @@ docker-compose up -d --build
 Q: Tôi muốn thay đổi cổng chạy web (không thích 8080)? A: Mở file docker-compose.yml, sửa dòng - "8080:80" thành cổng bạn muốn (ví dụ: - "8888:80").
 
 🤝 Đóng Góp
-Dự án được phát triển với mục đích học tập và thực hành Full-stack PHP. Mọi ý kiến đóng góp xin vui lòng liên hệ hoặc tạo Pull Request.
+Dự án được phát triển với mục đích học tập nâng trình. Mọi ý kiến đóng góp xin vui lòng liên hệ hoặc tạo Pull Request.
 
 Happy Coding! 🐶🐱
