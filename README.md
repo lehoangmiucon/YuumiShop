@@ -80,53 +80,23 @@ Trang chủ: http://localhost:8080
 Trang Admin: http://localhost:8080/admin/login.php
 
 🔑 Tài Khoản Mặc Định
-1. Quản Trị Viên (Admin)
-Email: admin@gmail.com
+- 1. Quản Trị Viên (Admin)
+        - Email: admin@gmail.com
 
-Mật khẩu: 123456 (hoặc Admin@123 tùy phiên bản init.sql bạn nạp)
+        - Mật khẩu: Admin@123 tùy phiên bản init.sql bạn nạp
 
-2. Khách Hàng (Customer)
-Bạn có thể tự Đăng ký tài khoản mới tại trang Đăng ký.
-
-📂 Cấu Trúc Dự Án
-src/: Thư mục gốc chứa mã nguồn PHP.
-
-admin/: Các file xử lý trang quản trị (Dashboard, Products, Orders...).
-
-assets/: Chứa CSS, JS, Hình ảnh (images/).
-
-images/cats/, images/dogs/, images/food/...: Ảnh sản phẩm được phân loại gọn gàng.
-
-includes/: Các file dùng chung (header.php, footer.php, db.php).
-
-index.php: Trang chủ.
-
-products.php: Trang danh sách sản phẩm & Bộ lọc.
-
-product_detail.php: Trang chi tiết sản phẩm.
-
-cart.php: Giỏ hàng.
-
-checkout.php: Thanh toán.
-
-profile.php: Trang cá nhân user.
-
-docker-compose.yml: File cấu hình các services (Web Server + Database).
-
-init.sql: File khởi tạo Database và dữ liệu mẫu.
+- 2. Khách Hàng (Customer)
+        - Bạn có thể tự Đăng ký tài khoản mới tại trang Đăng ký.
 
 ❓ Câu Hỏi Thường Gặp (FAQ)
-Q: Tôi thêm sản phẩm mới nhưng ảnh không hiện? A: Hãy đảm bảo bạn đã copy file ảnh vào đúng thư mục trong src/assets/images/ tương ứng với danh mục (ví dụ: thêm Mèo thì ảnh phải nằm trong src/assets/images/cats/).
+- Q: Tôi thêm sản phẩm mới nhưng ảnh không hiện? A: Hãy đảm bảo bạn đã copy file ảnh vào đúng thư mục trong src/assets/images/ tương ứng với danh mục (ví dụ: thêm Mèo thì ảnh phải nằm trong src/assets/images/cats/).
 
-Q: Làm sao để reset lại dữ liệu về ban đầu? A: Chạy lệnh sau trong terminal để xóa sạch container và dữ liệu cũ, sau đó chạy lại:
-
-Bash
-
-docker-compose down -v
-docker-compose up -d --build
-Q: Tôi muốn thay đổi cổng chạy web (không thích 8080)? A: Mở file docker-compose.yml, sửa dòng - "8080:80" thành cổng bạn muốn (ví dụ: - "8888:80").
+- Q: Làm sao để reset lại dữ liệu về ban đầu? A: Chạy lệnh sau trong terminal để xóa sạch container và dữ liệu cũ, sau đó chạy lại:
+        - docker-compose down -v
+        - docker-compose up -d --build
+- Q: Tôi muốn thay đổi cổng chạy web (không thích 8080)? A: Mở file docker-compose.yml, sửa dòng - "8080:80" thành cổng bạn muốn (ví dụ: - "8888:80").
 
 🤝 Đóng Góp
-Dự án được phát triển với mục đích học tập và thực hành Full-stack PHP. Mọi ý kiến đóng góp xin vui lòng liên hệ hoặc tạo Pull Request.
+- Dự án được phát triển với mục đích học tập và thực hành Full-stack PHP. Mọi ý kiến đóng góp xin vui lòng liên hệ hoặc tạo Pull Request.
 
 Happy Coding! 🐶🐱
