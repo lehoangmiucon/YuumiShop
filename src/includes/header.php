@@ -1,16 +1,15 @@
-<?php 
-require_once 'db.php'; 
+<?php
+require_once 'db.php';
 
-// --- LOGIC ĐỒNG BỘ GIỎ HÀNG (DB -> SESSION) ---
-// Nếu đã đăng nhập, luôn luôn refresh giỏ hàng từ DB để đảm bảo chính xác
+// --- LOGIC ĐỒNG BỘ GIỎ HÀNG ---
 if (isset($_SESSION['user_id'])) {
+    // Nếu đã đăng nhập: LẤY TỪ DB GHI ĐÈ VÀO SESSION
     $stmtCart = $conn->prepare("SELECT c.product_id, c.quantity, p.name, p.price, p.image, p.category 
                                 FROM cart c JOIN products p ON c.product_id = p.id 
                                 WHERE c.user_id = ?");
     $stmtCart->execute([$_SESSION['user_id']]);
     
-    // Reset session cart để nạp lại từ DB
-    $_SESSION['cart'] = []; 
+    $_SESSION['cart'] = []; // Reset cart session hiện tại
     while ($row = $stmtCart->fetch(PDO::FETCH_ASSOC)) {
         $_SESSION['cart'][$row['product_id']] = [
             'name' => $row['name'],

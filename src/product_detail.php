@@ -1,18 +1,13 @@
 <?php
-include 'includes/header.php';
+// 1. GỌI DB TRƯỚC (QUAN TRỌNG)
+require_once 'includes/db.php';
+
 $id = $_GET['id'] ?? 0;
 
-// 1. LẤY THÔNG TIN SẢN PHẨM
-$stmt = $conn->prepare("SELECT * FROM products WHERE id = ?");
-$stmt->execute([$id]);
-$product = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if (!$product) die("Sản phẩm không tồn tại!");
-
-// 2. XỬ LÝ GỬI ĐÁNH GIÁ (REVIEW)
+// 2. XỬ LÝ GỬI ĐÁNH GIÁ (REVIEW) - PHẢI ĐẶT TRƯỚC HTML OUTPUT
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_review'])) {
     if (!isset($_SESSION['user_id'])) {
-        echo "<script>alert('Vui lòng đăng nhập để đánh giá!');</script>";
+        $_SESSION['flash_msg'] = ['msg' => 'Vui lòng đăng nhập để đánh giá!', 'type' => 'error'];
     } else {
         $rating = $_POST['rating'];
         $comment = $_POST['comment'];
@@ -20,19 +15,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_review'])) {
         $cons = $_POST['cons'] ?? '';
         
         $sql = "INSERT INTO reviews (user_id, product_id, rating, comment, pros, cons) VALUES (?, ?, ?, ?, ?, ?)";
-        $conn->prepare($sql)->execute([$_SESSION['user_id'], $id, $rating, $comment, $pros, $cons]);
-        echo "<script>alert('Cảm ơn đánh giá của bạn!'); window.location.href='product_detail.php?id=$id';</script>";
+        if ($conn->prepare($sql)->execute([$_SESSION['user_id'], $id, $rating, $comment, $pros, $cons])) {
+            $_SESSION['flash_msg'] = ['msg' => 'Gửi đánh giá thành công! Cảm ơn bạn.', 'type' => 'success'];
+        } else {
+            $_SESSION['flash_msg'] = ['msg' => 'Có lỗi xảy ra, vui lòng thử lại.', 'type' => 'error'];
+        }
     }
+    // Redirect an toàn (Chưa có HTML nào được in ra)
+    header("Location: product_detail.php?id=$id");
+    exit;
 }
 
-// 3. XỬ LÝ XÓA BÌNH LUẬN (Của chính mình hoặc Admin)
+// 3. XỬ LÝ XÓA BÌNH LUẬN
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_review_id'])) {
     if (!isset($_SESSION['user_id'])) die("Lỗi xác thực!");
-    
+
     $del_id = $_POST['delete_review_id'];
     $user_id = $_SESSION['user_id'];
     $user_role = $_SESSION['user_role'] ?? 'user';
-
+    
     // Nếu là admin thì xóa thoải mái, nếu là user thì chỉ xóa của mình
     if ($user_role == 'admin') {
         $stmt = $conn->prepare("DELETE FROM reviews WHERE id = ?");
@@ -42,14 +43,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_review_id'])) {
         $stmt->execute([$del_id, $user_id]);
     }
     
-    // Refresh trang
+    $_SESSION['flash_msg'] = ['msg' => 'Đã xóa bình luận thành công!', 'type' => 'success'];
     header("Location: product_detail.php?id=$id");
     exit;
 }
 
-// 4. LẤY SẢN PHẨM LIÊN QUAN (Cùng category, trừ chính nó)
+// 4. LẤY THÔNG TIN SẢN PHẨM & DATA HIỂN THỊ
+$stmt = $conn->prepare("SELECT * FROM products WHERE id = ?");
+$stmt->execute([$id]);
+$product = $stmt->fetch(PDO::FETCH_ASSOC);
+if (!$product) die("Sản phẩm không tồn tại!");
+
 $related = $conn->prepare("SELECT * FROM products WHERE category = ? AND id != ? LIMIT 4");
 $related->execute([$product['category'], $id]);
+
+// 5. GIỜ MỚI GỌI HEADER (HTML BẮT ĐẦU TỪ ĐÂY)
+include 'includes/header.php';
 ?>
 
 <div class="container" style="margin-top: 40px; margin-bottom: 60px;">
@@ -181,13 +190,13 @@ $related->execute([$product['category'], $id]);
                 <?php if($is_mine || $is_admin): ?>
                     <form method="POST" style="position: absolute; top: 20px; right: 0;">
                         <input type="hidden" name="delete_review_id" value="<?= $rev['id'] ?>">
-                        <button type="submit" onclick="return confirm('Xóa bình luận này?')" style="background: none; border: none; color: #ccc; cursor: pointer;" title="Xóa bình luận"><i class="fas fa-trash"></i></button>
+                        <button type="submit" onclick="return confirm('Xóa bình luận này?')" style="background: none; border: none; color: red; cursor: pointer;" title="Xóa bình luận"><i class="fas fa-trash"></i></button>
                     </form>
                 <?php endif; ?>
 
                 <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                     <strong><?= htmlspecialchars($rev['name']) ?></strong>
-                    <span style="color: #f1c40f;"><?= str_repeat('★', $rev['rating']) ?></span>
+                    <span style="color: #f1c40f; margin-right: 30px"><?= str_repeat('★', $rev['rating']) ?></span>
                 </div>
                 <div style="font-size: 13px; color: #2ecc71; margin-bottom: 8px;">
                     <i class="fas fa-check-circle"></i> Đã comment về sản phẩm này

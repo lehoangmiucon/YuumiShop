@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $conn->prepare($sql);
         if($stmt->execute([$name, $email, $password, $address])) {
             // Đăng ký xong chuyển qua login
+            $_SESSION['flash_msg'] = ['msg' => 'Bạn đã đăng ký thành công!', 'type' => 'success'];
             header("Location: login.php");
             exit;
         } else {

@@ -689,6 +689,108 @@ button.agbg-border:hover, a.btn.agbg-border:hover {
     transform: scale(1.05); /* Phóng to nhẹ khi hover */
 }
 
+/* --- TOAST NOTIFICATION (Góc phải dưới) --- */
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    background: #fff;
+    border-left: 5px solid #2ecc71; /* Màu xanh lá chủ đạo */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border-radius: 4px;
+    padding: 15px 20px;
+    min-width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation: slideInRight 0.5s ease forwards;
+    transform: translateX(100%);
+}
+
+.toast.error { border-left-color: #e74c3c; } /* Màu đỏ cho lỗi */
+.toast.info { border-left-color: #3498db; }
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.toast-icon {
+    font-size: 24px;
+    color: #2ecc71;
+}
+.toast.error .toast-icon { color: #e74c3c; }
+
+.toast-msg {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+.toast-close {
+    cursor: pointer;
+    color: #aaa;
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+/* --- CUSTOM MODAL --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5); z-index: 10000;
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(2px);
+    animation: fadeIn 0.2s;
+}
+
+.modal-box {
+    background: white; width: 400px; padding: 30px;
+    border-radius: 12px; text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transform: scale(0.9);
+    animation: scaleUp 0.3s forwards;
+}
+
+.modal-icon.warning {
+    width: 60px; height: 60px; background: #fff3cd; color: #856404;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 24px; margin: 0 auto 20px;
+}
+
+.modal-box h3 { margin: 0 0 10px; color: #333; }
+.modal-box p { color: #666; margin-bottom: 25px; }
+
+.modal-actions { display: flex; gap: 10px; justify-content: center; }
+
+.modal-actions button {
+    padding: 10px 25px; border: none; border-radius: 6px;
+    cursor: pointer; font-weight: 600; transition: 0.2s;
+}
+
+.btn-secondary { background: #e2e6ea; color: #333; }
+.btn-secondary:hover { background: #dbe2e8; }
+
+.btn-danger { background: #e74c3c; color: white; }
+.btn-danger:hover { background: #c0392b; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scaleUp { to { transform: scale(1); } }
+
+@keyframes slideInRight {
+    to { transform: translateX(0); }
+}
+@keyframes fadeOut {
+    to { opacity: 0; transform: translateX(100%); }
+}
+
 /* Responsive */
 @media (max-width: 900px) {
     .checkout-layout { grid-template-columns: 1fr; }

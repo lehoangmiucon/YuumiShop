@@ -1,6 +1,5 @@
 <?php
 require_once '../includes/db.php';
-
 // Check quyền Admin
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     die("Cấm truy cập!");
@@ -10,21 +9,27 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
 if (isset($_POST['update_status'])) {
     $order_id = $_POST['order_id'];
     $status = $_POST['status'];
-    
+
     // Lấy trạng thái cũ để tránh cộng điểm nhiều lần
     $old_order = $conn->query("SELECT status, user_id, total_amount FROM orders WHERE id=$order_id")->fetch();
-    
+
     $stmt = $conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
-    $stmt->execute([$status, $order_id]);
-
-    // Nếu chuyển sang PAID và trước đó chưa PAID -> Cộng điểm
-    if ($status == 'paid' && $old_order['status'] != 'paid') {
-        $points = floor($old_order['total_amount'] / 100000); // 10k = 1 điểm
-        $conn->prepare("UPDATE users SET points = points + ? WHERE id = ?")
-             ->execute([$points, $old_order['user_id']]);
+    if ($stmt->execute([$status, $order_id])) {
+        // Nếu chuyển sang PAID và trước đó chưa PAID -> Cộng điểm
+        if ($status == 'paid' && $old_order['status'] != 'paid') {
+            $points = floor($old_order['total_amount'] / 100000); // 10k = 1 điểm
+            $conn->prepare("UPDATE users SET points = points + ? WHERE id = ?")
+                 ->execute([$points, $old_order['user_id']]);
+        }
+        // THAY THẾ ALERT BẰNG FLASH MESSAGE
+        $_SESSION['flash_msg'] = ['msg' => 'Cập nhật trạng thái đơn hàng thành công!', 'type' => 'success'];
+    } else {
+        $_SESSION['flash_msg'] = ['msg' => 'Lỗi khi cập nhật trạng thái!', 'type' => 'error'];
     }
-
-    echo "<script>alert('Cập nhật trạng thái thành công!'); window.location.href='orders.php';</script>";
+    
+    // Redirect để kích hoạt Toast và tránh resubmit form
+    header("Location: orders.php");
+    exit;
 }
 
 // Lấy danh sách đơn hàng
@@ -110,5 +115,5 @@ $orders = $conn->query($sql);
     .badge-success { background: #d4edda; color: #155724; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
     .badge-warning { background: #fff3cd; color: #856404; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
 </style>
-</body>
+<?php include '../includes/footer.php'; ?> </body>
 </html>

@@ -57,6 +57,7 @@ try {
     unset($_SESSION['cart']);
     unset($_SESSION['temp_order']);
     
+    $_SESSION['flash_msg'] = ['msg' => 'Thanh toán thành công!', 'type' => 'success'];
     header("Location: order_success.php?id=$order_id");
 
 } catch (Exception $e) {

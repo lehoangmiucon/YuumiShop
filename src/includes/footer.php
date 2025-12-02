@@ -15,7 +15,7 @@
                 <a href="#" style="color: white; margin-right: 15px;"><i class="fab fa-instagram fa-lg"></i></a>
                 <a href="#" style="color: white;"><i class="fab fa-tiktok fa-lg"></i></a>
             </div>
-        </div>
+        </div>  
         
         <div>
             <h4 style="margin-bottom: 20px;">Liên kết nhanh</h4>
@@ -45,8 +45,10 @@
             <p style="margin-top: 20px; font-size: 14px;"><i class="fas fa-phone-alt"></i> Hotline: 1900 1000</p>
         </div>
     </div>
-        <div style="grid-column: span 1; text-align:center"> <h4 style="margin-bottom: 20px;">Vị trí trên Google Maps</h4>
-            
+    
+    <div style="text-align:center; padding-bottom: 20px;"> 
+        <h4 style="margin-bottom: 20px;">Vị trí trên Google Maps</h4>
+        <div class="container">
             <div class="agbg-border" style="width: 100%; padding: 5px;">
                 <div style="background:white; border-radius:10px; overflow:hidden;">
                     <iframe 
@@ -60,10 +62,40 @@
                 </div>
             </div>
         </div>
+    </div>
+
     <div style="background: #22313f; text-align: center; padding: 20px;">
-        <p style="font-size: 13px;">&copy; 2025 Yuumi Shop. All rights reserved.</p>
+        <p style="font-size: 13px;">© 2025 Yuumi Shop. All rights reserved.</p>
     </div>
 </footer>
-<script src="assets/js/main.js"></script>
+
+<?php if (isset($_SESSION['flash_msg'])): ?>
+    <div id="flash-message" 
+         data-msg="<?= htmlspecialchars($_SESSION['flash_msg']['msg']) ?>" 
+         data-type="<?= htmlspecialchars($_SESSION['flash_msg']['type']) ?>"
+         style="display: none;"></div>
+    <?php unset($_SESSION['flash_msg']); // Xóa session ngay sau khi render ?>
+<?php endif; ?>
+
+<div id="toast-container"></div>
+
+<div id="custom-confirm-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-box">
+        <div class="modal-icon warning"><i class="fas fa-exclamation-triangle"></i></div>
+        <h3>Xác nhận hành động</h3>
+        <p id="confirm-message">Bạn có chắc chắn muốn thực hiện hành động này?</p>
+        <div class="modal-actions">
+            <button id="btn-cancel" class="btn-secondary">Hủy bỏ</button>
+            <button id="btn-confirm" class="btn-danger">Đồng ý</button>
+        </div>
+    </div>
+</div>
+
+<?php 
+// Kiểm tra xem đang ở thư mục admin hay root để chỉnh đường dẫn JS
+$js_path = file_exists('assets/js/main.js') ? 'assets/js/main.js' : '../assets/js/main.js';
+?>
+<script src="<?= $js_path ?>"></script>
+
 </body>
 </html>
