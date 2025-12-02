@@ -81,7 +81,6 @@ if ($method == 'COD') {
         .back-link:hover{
             color: #2ecc71;
         }
-        
     </style>
 </body>
 </html>

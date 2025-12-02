@@ -68,7 +68,7 @@ $usable_points = min($user['points'], $max_points_allowed);
 
                 <div class="form-full">
                     <label class="checkout-label">Địa chỉ chi tiết</label>
-                    <input type="text" name="address" class="checkout-input" value="<?= htmlspecialchars($user['address']) ?>" placeholder="Số nhà, tên đường, phường/xã, quận/huyện..." required>
+                    <input type="text" name="address" class="checkout-input" placeholder="Số nhà, tên đường, phường/xã, quận/huyện..." required>
                 </div>
                 
                 <div class="form-full">
