@@ -1,0 +1,8 @@
+# Temporary files created by MS Word, Excel, etc.
+*.~*
+
+# VS Code
+.vscode/
+
+# Environment variables
+.env

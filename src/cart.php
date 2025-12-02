@@ -108,7 +108,7 @@ include 'includes/header.php';
                         <div class="cart-item-info">
                             <h3><?= htmlspecialchars($item['name']) ?></h3>
                             <div class="cart-item-meta">Danh mục: <?= ucfirst($item['category']) ?></div>
-                                <a href="cart.php?remove=<?= $id ?>" 
+                                <a style="color: red" href="cart.php?remove=<?= $id ?>" 
                                 data-confirm="Xóa bé này khỏi giỏ hàng? Hành động này không thể hoàn tác.">
                                 <i class="fas fa-trash"></i> Xóa
                                 </a>
