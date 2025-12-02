@@ -3,7 +3,7 @@ Chào mừng bạn đến với Yuumi Shop! Đây là dự án website bán thú
 
 🚀 Tính Năng Nổi Bật
 🛒 Phía Khách Hàng (Frontend)
-Giao diện hiện đại: Thiết kế UI/UX thân thiện, responsive, tông màu xanh lá chủ đạo tạo cảm giác tươi mới.
+    Giao diện hiện đại: Thiết kế UI/UX thân thiện, responsive, tông màu xanh lá chủ đạo tạo cảm giác tươi mới.
 
 Tìm kiếm & Lọc thông minh:
 
