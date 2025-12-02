@@ -1,5 +1,6 @@
 🐾 Yuumi Shop - Website Thương Mại Điện Tử Thú Cưng
-Chào mừng bạn đến với Yuumi Shop! Đây là dự án website bán thú cưng (chó, mèo), thức ăn và phụ kiện trọn gói. Dự án được xây dựng bằng PHP thuần, MySQL và chạy trên môi trường Docker, đảm bảo dễ dàng cài đặt và triển khai.
+- Chào mừng bạn đến với Yuumi Shop! Đây là dự án website bán thú cưng (chó, mèo), thức ăn và phụ kiện trọn gói.
+- Dự án được xây dựng bằng PHP thuần, MySQL và chạy trên môi trường Docker, đảm bảo dễ dàng cài đặt và triển khai.
 
 🚀 Tính Năng Nổi Bật
 🛒 Phía Khách Hàng (Frontend)
