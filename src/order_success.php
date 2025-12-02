@@ -57,7 +57,7 @@ $upsell = $conn->query("SELECT * FROM products WHERE category IN ('accessory', '
                             <img src="assets/images/<?= $row['image'] ?>" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
                             <div style="flex: 1;">
                                 <h4 style="font-size: 14px; margin: 0; color: #333;"><?= htmlspecialchars($row['name']) ?></h4>
-                                <p style="font-size: 12px; color: #777; margin: 2px 0;">SL: <?= $row['quantity'] ?></p>
+                                <p style="font-size: 12px; color: #777; margin: 2px 0;">Số lượng: <?= $row['quantity'] ?></p>
                             </div>
                             <div style="font-weight: bold; font-size: 14px; color: #333;">
                                 <?= number_format($row['price'] * $row['quantity']) ?> đ

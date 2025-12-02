@@ -115,8 +115,8 @@ include 'includes/header.php';
                         </div>
                     </div>
 
-                    <div class="qty-control-wrapper">
-                        <form method="POST" action="cart.php" style="display:inline;">
+                    <div class="qty-control-wrapper" style="margin-right: 35px">
+                        <form method="POST" action="cart.php" style="display: inline;">
                             <input type="hidden" name="action" value="update_qty">
                             <input type="hidden" name="id" value="<?= $id ?>">
                             <input type="hidden" name="type" value="dec">

@@ -49,7 +49,7 @@ if ($method == 'COD') {
                 <form action="process_order.php" method="POST" style="margin-top: 20px;">
                      <button type="submit" class="btn" style="width: 100%; background: #0056b3;">Xác nhận đã thanh toán trên App</button>
                      <br><br>
-                     <a href="cart.php" style="color: #666; text-decoration: none;">&larr; Hủy thanh toán, quay lại giỏ hàng</a>
+                     <a href="cart.php" class="back-link">&larr; Hủy thanh toán, quay lại giỏ hàng</a>
                 </form>
             </div>
 
@@ -69,5 +69,19 @@ if ($method == 'COD') {
             </div>
         </div>
     </div>
+
+    <style>
+        .back-link{
+            display: inline-block;
+            color: #666;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .back-link:hover{
+            color: #2ecc71;
+        }
+        
+    </style>
 </body>
 </html>
