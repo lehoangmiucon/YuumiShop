@@ -2,29 +2,52 @@
 include 'includes/header.php';
 $id = $_GET['id'] ?? 0;
 
-// Lấy thông tin sản phẩm
+// 1. LẤY THÔNG TIN SẢN PHẨM
 $stmt = $conn->prepare("SELECT * FROM products WHERE id = ?");
 $stmt->execute([$id]);
 $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$product) die("Sản phẩm không tồn tại!");
 
-// Xử lý gửi Review (Giữ nguyên logic cũ)
+// 2. XỬ LÝ GỬI ĐÁNH GIÁ (REVIEW)
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_review'])) {
     if (!isset($_SESSION['user_id'])) {
         echo "<script>alert('Vui lòng đăng nhập để đánh giá!');</script>";
     } else {
         $rating = $_POST['rating'];
         $comment = $_POST['comment'];
-        $pros = $_POST['pros'];
-        $cons = $_POST['cons'];
+        $pros = $_POST['pros'] ?? '';
+        $cons = $_POST['cons'] ?? '';
+        
         $sql = "INSERT INTO reviews (user_id, product_id, rating, comment, pros, cons) VALUES (?, ?, ?, ?, ?, ?)";
         $conn->prepare($sql)->execute([$_SESSION['user_id'], $id, $rating, $comment, $pros, $cons]);
         echo "<script>alert('Cảm ơn đánh giá của bạn!'); window.location.href='product_detail.php?id=$id';</script>";
     }
 }
 
-// Lấy sản phẩm liên quan (Cùng category, trừ chính nó)
+// 3. XỬ LÝ XÓA BÌNH LUẬN (Của chính mình hoặc Admin)
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_review_id'])) {
+    if (!isset($_SESSION['user_id'])) die("Lỗi xác thực!");
+    
+    $del_id = $_POST['delete_review_id'];
+    $user_id = $_SESSION['user_id'];
+    $user_role = $_SESSION['user_role'] ?? 'user';
+
+    // Nếu là admin thì xóa thoải mái, nếu là user thì chỉ xóa của mình
+    if ($user_role == 'admin') {
+        $stmt = $conn->prepare("DELETE FROM reviews WHERE id = ?");
+        $stmt->execute([$del_id]);
+    } else {
+        $stmt = $conn->prepare("DELETE FROM reviews WHERE id = ? AND user_id = ?");
+        $stmt->execute([$del_id, $user_id]);
+    }
+    
+    // Refresh trang
+    header("Location: product_detail.php?id=$id");
+    exit;
+}
+
+// 4. LẤY SẢN PHẨM LIÊN QUAN (Cùng category, trừ chính nó)
 $related = $conn->prepare("SELECT * FROM products WHERE category = ? AND id != ? LIMIT 4");
 $related->execute([$product['category'], $id]);
 ?>
@@ -37,7 +60,7 @@ $related->execute([$product['category'], $id]);
             <div class="main-img">
                 <img src="assets/images/<?= $product['image'] ?>" alt="<?= htmlspecialchars($product['name']) ?>">
             </div>
-            </div>
+        </div>
 
         <div class="detail-info">
             <div class="product-breadcrumb">
@@ -88,12 +111,8 @@ $related->execute([$product['category'], $id]);
                         <button type="button" onclick="this.previousElementSibling.stepUp()">+</button>
                     </div>
 
-                    <button type="submit" class="btn-add-cart">
+                    <button type="submit" class="btn-add-cart agbg-border">
                         <i class="fas fa-cart-plus"></i> Thêm vào giỏ
-                    </button>
-
-                    <button type="submit" formaction="cart.php?buynow=1" class="btn-buy-now">
-                        <i class="fas fa-money-check-alt"></i> Mua Ngay
                     </button>
                 </form>
             </div>
@@ -101,24 +120,15 @@ $related->execute([$product['category'], $id]);
             <div class="trust-badges">
                 <div class="trust-item">
                     <i class="fas fa-truck"></i>
-                    <div>
-                        <strong>Miễn phí vận chuyển</strong>
-                        <p>Cho đơn hàng từ 500k</p>
-                    </div>
+                    <div><strong>Miễn phí vận chuyển</strong><p>Cho đơn hàng từ 500k</p></div>
                 </div>
                 <div class="trust-item">
                     <i class="fas fa-shield-alt"></i>
-                    <div>
-                        <strong>Bảo hành sức khỏe</strong>
-                        <p>7 ngày đổi trả nếu có bệnh</p>
-                    </div>
+                    <div><strong>Bảo hành sức khỏe</strong><p>7 ngày đổi trả nếu có bệnh</p></div>
                 </div>
                 <div class="trust-item">
                     <i class="fas fa-headset"></i>
-                    <div>
-                        <strong>Hỗ trợ 24/7</strong>
-                        <p>Tư vấn chăm sóc trọn đời</p>
-                    </div>
+                    <div><strong>Hỗ trợ 24/7</strong><p>Tư vấn chăm sóc trọn đời</p></div>
                 </div>
             </div>
         </div>
@@ -134,23 +144,24 @@ $related->execute([$product['category'], $id]);
             <div class="desc-content">
                 <h3>Thông tin sản phẩm</h3>
                 <p><?= nl2br(htmlspecialchars($product['description'])) ?></p>
-                </div>
+            </div>
         </div>
 
         <div id="reviews" class="tab-content" style="display: none;">
-            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 30px;">  
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                <h4 style="margin-bottom: 15px;">Viết đánh giá của bạn</h4>
                 <form method="POST">
                     <div style="margin-bottom: 15px;">
-                        <label style="display:block; margin-bottom:5px; font-weight:bold;">Đánh giá:</label>
+                        <label style="display:block; margin-bottom:5px; font-weight:bold;">Đánh giá sao:</label>
                         <div class="star-rating">
-                            <input type="radio" id="star5" name="rating" value="5" checked /><label for="star5">★</label>
-                            <input type="radio" id="star4" name="rating" value="4" /><label for="star4">★</label>
-                            <input type="radio" id="star3" name="rating" value="3" /><label for="star3">★</label>
-                            <input type="radio" id="star2" name="rating" value="2" /><label for="star2">★</label>
-                            <input type="radio" id="star1" name="rating" value="1" /><label for="star1">★</label>
+                            <input type="radio" id="star5" name="rating" value="5" checked /><label for="star5" title="Tuyệt vời">★</label>
+                            <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Tốt">★</label>
+                            <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Bình thường">★</label>
+                            <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Kém">★</label>
+                            <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Tệ">★</label>
                         </div>
                     </div>
-                    <textarea name="comment" placeholder="Chia sẻ trải nghiệm..." style="width: 100%; padding: 10px; height: 100px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;" required></textarea>
+                    <textarea name="comment" placeholder="Chia sẻ trải nghiệm của bạn..." style="width: 100%; padding: 10px; height: 80px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;" required></textarea>
                     <button type="submit" name="submit_review" class="btn">Gửi đánh giá</button>
                 </form>
             </div>
@@ -158,52 +169,98 @@ $related->execute([$product['category'], $id]);
             <?php
             $stmt_rev = $conn->prepare("SELECT r.*, u.name FROM reviews r JOIN users u ON r.user_id = u.id WHERE r.product_id = ? ORDER BY r.id DESC");
             $stmt_rev->execute([$id]);
-            while($rev = $stmt_rev->fetch(PDO::FETCH_ASSOC)):
+            
+            if ($stmt_rev->rowCount() > 0):
+                while($rev = $stmt_rev->fetch(PDO::FETCH_ASSOC)):
+                    // Check xem có phải comment của mình không
+                    $is_mine = (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $rev['user_id']);
+                    $is_admin = (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin');
             ?>
-            <div class="review-item" style="border-bottom: 1px solid #eee; padding: 20px 0;">
+            <div class="review-item" style="border-bottom: 1px solid #eee; padding: 20px 0; position: relative;">
+                
+                <?php if($is_mine || $is_admin): ?>
+                    <form method="POST" style="position: absolute; top: 20px; right: 0;">
+                        <input type="hidden" name="delete_review_id" value="<?= $rev['id'] ?>">
+                        <button type="submit" onclick="return confirm('Xóa bình luận này?')" style="background: none; border: none; color: #ccc; cursor: pointer;" title="Xóa bình luận"><i class="fas fa-trash"></i></button>
+                    </form>
+                <?php endif; ?>
+
                 <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                     <strong><?= htmlspecialchars($rev['name']) ?></strong>
                     <span style="color: #f1c40f;"><?= str_repeat('★', $rev['rating']) ?></span>
                 </div>
-                <div style="font-size: 13px; color: #2ecc71; margin-bottom: 5px;">✔ Đã comment</div>
-                <p style="margin-top: 10px;"><?= htmlspecialchars($rev['comment']) ?></p>
+                <div style="font-size: 13px; color: #2ecc71; margin-bottom: 8px;">
+                    <i class="fas fa-check-circle"></i> Đã comment về sản phẩm này
+                </div>
+                
+                <p style="margin-top: 10px; font-style: italic; color: #555;">"<?= htmlspecialchars($rev['comment']) ?>"</p>
+                <small style="color: #999; display: block; margin-top: 5px;"><?= date('d/m/Y H:i', strtotime($rev['created_at'])) ?></small>
             </div>
-            <?php endwhile; ?>
+            <?php endwhile; 
+            else: 
+                echo "<p style='text-align:center; color:#888;'>Chưa có đánh giá nào. Hãy là người đầu tiên!</p>";
+            endif;
+            ?>
         </div>
     </div>
 
     <div class="related-products" style="margin-top: 60px;">
         <h3 style="border-bottom: 2px solid #2ecc71; display: inline-block; padding-bottom: 5px; margin-bottom: 30px;">Sản phẩm liên quan</h3>
-    <div class="product-grid">
-            <?php while($rel = $related->fetch(PDO::FETCH_ASSOC)): ?>
+        <div class="product-grid">
+ <?php while($rel = $related->fetch(PDO::FETCH_ASSOC)): ?>
+            
             <div class="product-card">
-                <a href="product_detail.php?id=<?= $rel['id'] ?>">
-                    <img src="assets/images/<?= $rel['image'] ?>" style="height: 320px;">
-                </a>
                 
-                <div class="product-actions" style="bottom: 10px; opacity: 1;">
-                    <a href="product_detail.php?id=<?= $rel['id'] ?>" class="btn" title="Xem chi tiết"><i class="fas fa-eye"></i></a>
-                    <form action="cart.php" method="POST" style="display:inline;">
-                        <input type="hidden" name="action" value="add">
-                        <input type="hidden" name="id" value="<?= $rel['id'] ?>">
-                        <button class="btn" title="Thêm vào giỏ"><i class="fas fa-shopping-cart"></i></button>
-                    </form>
+                <div class="product-img-wrapper">
+                    <a href="product_detail.php?id=<?= $rel['id'] ?>">
+                        <img src="assets/images/<?= htmlspecialchars($rel['image']) ?>">
+                    </a>
+                    
+                    <div class="product-actions">
+                        <a href="product_detail.php?id=<?= $rel['id'] ?>" class="btn" title="Xem chi tiết"><i class="fas fa-eye"></i></a>
+                        
+                        <form action="cart.php" method="POST" style="display:inline;">
+                            <input type="hidden" name="action" value="add">
+                            <input type="hidden" name="id" value="<?= $rel['id'] ?>">
+                            <button class="btn" title="Thêm vào giỏ"><i class="fas fa-shopping-cart"></i></button>
+                        </form>
+                    </div>
                 </div>
 
-                <div class="product-info" style="margin-bottom: 50px; text-algin: center;">
-                    <h3><a href="product_detail.php?id=<?= $rel['id'] ?>" style="color:#333; text-decoration:none;"><?= $rel['name'] ?></a></h3>
-                    <span class="price"><?= number_format($rel['price']) ?> đ</span>
+                <div class="product-info">
+                    <h3><a href="product_detail.php?id=<?= $rel['id'] ?>" style="color:#333; text-decoration:none;"><?= htmlspecialchars($rel['name']) ?></a></h3>
+                    
+                    <div style="margin-bottom: 10px;">
+                        <span class="price"><?= number_format($rel['price']) ?> đ</span>
+                    </div>
+
+                    <form action="cart.php" method="POST" style="margin-top: 10px;">
+                        <input type="hidden" name="action" value="add">
+                        <input type="hidden" name="id" value="<?= $rel['id'] ?>">
+                        <button type="submit" class="btn-buy" style="width: 100%; border: none; cursor: pointer; padding: 8px; font-size: 14px;">
+                            <i class="fas fa-cart-plus"></i> Thêm ngay
+                        </button>
+                    </form>
                 </div>
             </div>
+
             <?php endwhile; ?>
         </div>
-    </div>
 
 </div>
 
 <style>
+    
+    .btn-buy {
+    display:block; width:100%; margin-top:10px;
+    padding:10px 0; background:#2ecc71; color:white;
+    border-radius:6px; text-decoration:none; font-weight:600;
+    transition:.3s;
+    }
+    .btn-buy:hover { background:#27ae60; }
+
     .product-detail-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
-    .main-img img { width: 100%; border-radius: 10px; border: 1px solid #eee; }
+    .main-img img { width: 100%; border-radius: 10px; border: 1px solid #eee; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
     .product-breadcrumb { color: #888; font-size: 14px; margin-bottom: 15px; }
     .product-title { font-size: 32px; margin-bottom: 10px; color: #2c3e50; }
     .product-meta-row { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
@@ -217,9 +274,10 @@ $related->execute([$product['category'], $id]);
     .qty-control { display: flex; align-items: center; border: 1px solid #ddd; border-radius: 5px; overflow: hidden; }
     .qty-control button { background: #f1f1f1; border: none; width: 40px; height: 45px; cursor: pointer; font-size: 18px; }
     .qty-control input { width: 50px; height: 45px; text-align: center; border: none; font-size: 16px; outline: none; }
-    .btn-add-cart { flex: 1; background: #2ecc71; color: white; border: none; border-radius: 5px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+    
+    .btn-add-cart { flex: 1; background: #2ecc71; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .btn-add-cart:hover { background: #27ae60; }
-
+    
     .trust-badges { margin-top: 30px; display: grid; grid-template-columns: 1fr; gap: 15px; }
     .trust-item { display: flex; gap: 15px; align-items: center; border: 1px solid #eee; padding: 15px; border-radius: 8px; }
     .trust-item i { font-size: 24px; color: #2ecc71; }

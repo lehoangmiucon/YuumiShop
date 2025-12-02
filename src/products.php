@@ -92,26 +92,24 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 <div class="container page-layout">
-    
     <aside class="sidebar">
         <form action="products.php" method="GET" id="filterForm">
-            <?php if(isset($_GET['q'])): ?>
-                <input type="hidden" name="q" value="<?= htmlspecialchars($_GET['q']) ?>">
-            <?php endif; ?>
+            
+            <?php if(isset($_GET['q'])): ?><input type="hidden" name="q" value="<?= htmlspecialchars($_GET['q']) ?>"><?php endif; ?>
+            <?php if($is_pet_page): ?><input type="hidden" name="category" value="pet"><?php endif; ?>
+
+            <div class="sidebar-section">
+                <h3><i class="fas fa-paw"></i> Dành cho</h3>
+                <div class="filter-list">
+                    <label><input type="radio" name="species" value="" <?= empty($_GET['species'])?'checked':'' ?> onchange="this.form.submit()"> Tất cả</label>
+                    <label><input type="radio" name="species" value="dog" <?= (isset($_GET['species']) && $_GET['species']=='dog')?'checked':'' ?> onchange="this.form.submit()"> Chó</label>
+                    <label><input type="radio" name="species" value="cat" <?= (isset($_GET['species']) && $_GET['species']=='cat')?'checked':'' ?> onchange="this.form.submit()"> Mèo</label>
+                </div>
+            </div>
 
             <?php if($is_pet_page): ?>
-                <input type="hidden" name="category" value="pet">
-
                 <div class="sidebar-section">
-                    <h3>Loài</h3>
-                    <div class="filter-list">
-                        <label><input type="radio" name="species" value="" <?= empty($_GET['species'])?'checked':'' ?> onchange="this.form.submit()"> Tất cả</label>
-                        <label><input type="radio" name="species" value="dog" <?= (isset($_GET['species']) && $_GET['species']=='dog')?'checked':'' ?> onchange="this.form.submit()"> Chó Cảnh</label>
-                        <label><input type="radio" name="species" value="cat" <?= (isset($_GET['species']) && $_GET['species']=='cat')?'checked':'' ?> onchange="this.form.submit()"> Mèo Cảnh</label>
-                    </div>
-                </div>
-                <div class="sidebar-section">
-                    <h3>Giới tính</h3>
+                    <h3><i class="fas fa-venus-mars"></i> Giới tính</h3>
                     <div class="filter-list">
                         <label><input type="radio" name="gender" value="" <?= empty($_GET['gender'])?'checked':'' ?> onchange="this.form.submit()"> Tất cả</label>
                         <label><input type="radio" name="gender" value="male" <?= (isset($_GET['gender']) && $_GET['gender']=='male')?'checked':'' ?> onchange="this.form.submit()"> Đực (Male)</label>
@@ -119,7 +117,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
                 <div class="sidebar-section">
-                    <h3>Độ tuổi</h3>
+                    <h3><i class="fas fa-birthday-cake"></i> Độ tuổi</h3>
                     <div class="filter-list">
                         <label><input type="radio" name="age_group" value="baby" <?= (isset($_GET['age_group']) && $_GET['age_group']=='baby')?'checked':'' ?> onchange="this.form.submit()"> Thú con (Baby)</label>
                         <label><input type="radio" name="age_group" value="adult" <?= (isset($_GET['age_group']) && $_GET['age_group']=='adult')?'checked':'' ?> onchange="this.form.submit()"> Trưởng thành</label>
@@ -128,39 +126,38 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <?php else: ?>
                 <div class="sidebar-section">
-                    <h3>Danh mục</h3>
+                    <h3><i class="fas fa-list-ul"></i> Danh mục</h3>
                     <div class="filter-list">
                         <label><input type="radio" name="category" value="supplies" <?= (isset($_GET['category']) && $_GET['category']=='supplies')?'checked':'' ?> onchange="this.form.submit()"> Tất cả</label>
                         <label><input type="radio" name="category" value="food" <?= (isset($_GET['category']) && $_GET['category']=='food')?'checked':'' ?> onchange="this.form.submit()"> Thức ăn</label>
                         <label><input type="radio" name="category" value="accessory" <?= (isset($_GET['category']) && $_GET['category']=='accessory')?'checked':'' ?> onchange="this.form.submit()"> Phụ kiện</label>
                         <label><input type="radio" name="category" value="toy" <?= (isset($_GET['category']) && $_GET['category']=='toy')?'checked':'' ?> onchange="this.form.submit()"> Đồ chơi</label>
-                        <label><input type="radio" name="category" value="health" <?= (isset($_GET['category']) && $_GET['category']=='health')?'checked':'' ?> onchange="this.form.submit()"> Y tế & Sức khỏe</label>
+                        <label><input type="radio" name="category" value="health" <?= (isset($_GET['category']) && $_GET['category']=='health')?'checked':'' ?> onchange="this.form.submit()"> Y tế</label>
                     </div>
                 </div>
-
                 <div class="sidebar-section">
-                    <h3>Dành cho</h3>
+                    <h3><i class="fas fa-tag"></i> Thương hiệu</h3>
                     <div class="filter-list">
-                        <label><input type="radio" name="species" value="" <?= empty($_GET['species'])?'checked':'' ?> onchange="this.form.submit()"> Tất cả</label>
-                        <label><input type="radio" name="species" value="dog" <?= (isset($_GET['species']) && $_GET['species']=='dog')?'checked':'' ?> onchange="this.form.submit()"> Cho Chó</label>
-                        <label><input type="radio" name="species" value="cat" <?= (isset($_GET['species']) && $_GET['species']=='cat')?'checked':'' ?> onchange="this.form.submit()"> Cho Mèo</label>
+                        <label><input type="radio" name="brand" value="" <?= empty($_GET['brand'])?'checked':'' ?> onchange="this.form.submit()"> Tất cả</label>
+                        <label><input type="radio" name="brand" value="Royal Canin" <?= (isset($_GET['brand']) && $_GET['brand']=='Royal Canin')?'checked':'' ?> onchange="this.form.submit()"> Royal Canin</label>
+                        <label><input type="radio" name="brand" value="Whiskas" <?= (isset($_GET['brand']) && $_GET['brand']=='Whiskas')?'checked':'' ?> onchange="this.form.submit()"> Whiskas</label>
                     </div>
                 </div>
-                
             <?php endif; ?>
 
             <div class="sidebar-section">
-                <h3>Khoảng giá</h3>
+                <h3><i class="fas fa-money-bill-wave"></i> Khoảng giá</h3>
                 <div class="filter-list">
                     <label><input type="radio" name="price_range" value="" <?= empty($_GET['price_range'])?'checked':'' ?> onchange="this.form.submit()"> Tất cả</label>
                     <label><input type="radio" name="price_range" value="0-100000" <?= (isset($_GET['price_range']) && $_GET['price_range']=='0-100000')?'checked':'' ?> onchange="this.form.submit()"> Dưới 100k</label>
                     <label><input type="radio" name="price_range" value="100000-500000" <?= (isset($_GET['price_range']) && $_GET['price_range']=='100000-500000')?'checked':'' ?> onchange="this.form.submit()"> 100k - 500k</label>
-                    <label><input type="radio" name="price_range" value="500000-5000000" <?= (isset($_GET['price_range']) && $_GET['price_range']=='500000-5000000')?'checked':'' ?> onchange="this.form.submit()"> 500k - 5 triệu</label>
-                    <label><input type="radio" name="price_range" value="5000000-50000000" <?= (isset($_GET['price_range']) && $_GET['price_range']=='5000000-50000000')?'checked':'' ?> onchange="this.form.submit()"> Trên 5 triệu</label>
+                    <label><input type="radio" name="price_range" value="500000-2000000" <?= (isset($_GET['price_range']) && $_GET['price_range']=='500000-2000000')?'checked':'' ?> onchange="this.form.submit()"> 500k - 2 triệu</label>
+                    <label><input type="radio" name="price_range" value="2000000-10000000" <?= (isset($_GET['price_range']) && $_GET['price_range']=='2000000-10000000')?'checked':'' ?> onchange="this.form.submit()"> 2 triệu - 10 triệu</label>
+                    <label><input type="radio" name="price_range" value="10000000-100000000" <?= (isset($_GET['price_range']) && $_GET['price_range']=='10000000-100000000')?'checked':'' ?> onchange="this.form.submit()"> Trên 10 triệu</label>
                 </div>
             </div>
-            
-            <a href="products.php<?= $is_pet_page ? '?category=pet' : '?category=supplies' ?>" class="btn" style="width:100%; text-align:center; background:#bdc3c7;">Xóa bộ lọc</a>
+
+            <a href="products.php<?= $is_pet_page ? '?category=pet' : '?category=supplies' ?>" class="btn" style="width:100%; text-align:center; background:#bdc3c7; margin-top:10px;">Xóa bộ lọc</a>
         </form>
     </aside>
 

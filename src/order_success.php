@@ -51,7 +51,7 @@ $upsell = $conn->query("SELECT * FROM products WHERE category IN ('accessory', '
                     <h3 style="color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">
                         <i class="fas fa-shopping-bag" style="color: #2ecc71; margin-right: 10px;"></i> Sản phẩm đã mua
                     </h3>
-                    <div style="max-height: 250px; overflow-y: auto;">
+                    <div style="max-height: 250px; overflow-y: auto; padding-right: 10px">
                         <?php while($row = $stmt_items->fetch(PDO::FETCH_ASSOC)): ?>
                         <div style="display: flex; gap: 15px; margin-bottom: 15px; border-bottom: 1px solid #f5f5f5; padding-bottom: 10px;">
                             <img src="assets/images/<?= $row['image'] ?>" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
@@ -89,7 +89,7 @@ $upsell = $conn->query("SELECT * FROM products WHERE category IN ('accessory', '
             <?php while($up = $upsell->fetch(PDO::FETCH_ASSOC)): ?>
             <div class="product-card">
                 <a href="product_detail.php?id=<?= $up['id'] ?>">
-                    <img src="assets/images/<?= $up['image'] ?>" style="height: 200px;">
+                    <img src="assets/images/<?= $up['image'] ?>" style="height: 300px;">
                 </a>
                 <div class="product-info" style="padding: 15px;">
                     <h3><a href="product_detail.php?id=<?= $up['id'] ?>" style="font-size: 15px;"><?= $up['name'] ?></a></h3>

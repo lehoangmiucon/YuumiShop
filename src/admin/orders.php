@@ -19,7 +19,7 @@ if (isset($_POST['update_status'])) {
 
     // Nếu chuyển sang PAID và trước đó chưa PAID -> Cộng điểm
     if ($status == 'paid' && $old_order['status'] != 'paid') {
-        $points = floor($old_order['total_amount'] / 10000); // 10k = 1 điểm
+        $points = floor($old_order['total_amount'] / 100000); // 10k = 1 điểm
         $conn->prepare("UPDATE users SET points = points + ? WHERE id = ?")
              ->execute([$points, $old_order['user_id']]);
     }
@@ -45,6 +45,7 @@ $orders = $conn->query($sql);
     <div class="sidebar">
         <h3>Admin Panel</h3>
         <a href="index.php">Dashboard</a>
+        <a href="reviews.php">Quản lý Đánh giá</a>
         <a href="products.php">Quản lý Sản phẩm</a>
         <a href="orders.php" style="background: #34495e; border-left: 3px solid #f1c40f;">Quản lý Đơn hàng</a>
         <a href="users.php">Quản lý Khách hàng</a>

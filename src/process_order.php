@@ -44,7 +44,7 @@ try {
     // Cộng điểm mới (Chỉ cộng khi thanh toán VNPAY hoặc Admin xác nhận Paid)
     // Tỷ lệ: 100,000 VND = 10 điểm
     if ($status == 'paid') {
-        $points_earned = floor($final_total / 10000); // 10k = 1 điểm
+        $points_earned = floor($final_total / 100000);
         $stmt_add = $conn->prepare("UPDATE users SET points = points + ? WHERE id = ?");
         $stmt_add->execute([$points_earned, $user_id]);
     }

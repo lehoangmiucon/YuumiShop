@@ -107,7 +107,7 @@ include 'includes/header.php';
                             </div>
                         </div>
 
-                        <div style="text-align: center; margin-top: 50px; margin-right:30px"> <input type="number" value="<?= $item['qty'] ?>" class="qty-input" min="1" readonly>
+                        <div style="text-align: center; margin-top: 50px; margin-right:30px; margin-left: 50px"> <input type="number" value="<?= $item['qty'] ?>" class="qty-input" min="1" readonly>
                     </div>
 
                         <div style="text-align: right; font-weight: bold; color: #333; min-width: 120px; margin-top: 55px;">

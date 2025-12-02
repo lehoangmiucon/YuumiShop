@@ -25,8 +25,8 @@ $stmt_items->execute([$order_id]);
     <div class="sidebar">
         <h3>Admin Panel</h3>
         <a href="index.php">Dashboard</a>
+        <a href="reviews.php">Quản lý Đánh giá</a>
         <a href="orders.php">Quản lý Đơn hàng</a> </div>
-
     <div class="content">
         <h2>Chi tiết đơn hàng #<?= $order_id ?></h2>
         <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">

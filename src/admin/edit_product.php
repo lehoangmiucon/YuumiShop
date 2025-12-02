@@ -88,6 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_product'])) {
     <div class="sidebar">
         <h3>Admin Panel</h3>
         <a href="index.php">Dashboard</a>
+        <a href="reviews.php">Quản lý Đánh giá</a>
         <a href="products.php" style="background: #34495e; border-left: 3px solid #f1c40f;">Quản lý Sản phẩm</a>
         <a href="../index.php">Về trang chủ</a>
     </div>

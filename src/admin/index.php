@@ -37,6 +37,7 @@ $recentOrders = $conn->query("SELECT * FROM orders ORDER BY id DESC LIMIT 5");
         <a href="index.php" style="background: #34495e; border-left: 3px solid #f1c40f;">Dashboard</a>
         <a href="products.php">Quản lý Sản phẩm</a>
         <a href="orders.php">Quản lý Đơn hàng</a>
+        <a href="reviews.php">Quản lý Đánh giá</a>
         <a href="users.php">Quản lý Khách hàng</a>
         <a href="../index.php">Về trang chủ</a>
         <a href="../logout.php">Đăng xuất</a>
