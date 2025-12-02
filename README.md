@@ -53,22 +53,19 @@ Docker và Docker Compose.
 Bước 1: Clone hoặc Tải dự án về
 Giải nén thư mục dự án (ví dụ: YuumiShop). Cấu trúc thư mục chuẩn sẽ như sau:
 
-Plaintext
-
-YuumiShop/
-├── docker-compose.yml
-├── Dockerfile
-├── init.sql           <-- Chứa dữ liệu mẫu
-└── src/               <-- Mã nguồn website
-    ├── admin/
-    ├── assets/
-    ├── includes/
-    ├── index.php
-    └── ...
+- YuumiShop/
+- ├── docker-compose.yml
+- ├── Dockerfile
+- ├── init.sql           <-- Chứa dữ liệu mẫu
+- └── src/               <-- Mã nguồn website
+    - ├── admin/
+    - ├── assets/
+    - ├── includes/
+    - ├── index.php
+    - └── ...
 Bước 2: Khởi chạy Docker
 Mở Terminal (hoặc CMD/PowerShell) tại thư mục YuumiShop và chạy lệnh:
 
-Bash
 
 docker-compose up -d --build
 Lệnh này sẽ tự động tải PHP, MySQL, cấu hình server và import dữ liệu từ init.sql.
