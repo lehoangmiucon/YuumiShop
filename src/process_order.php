@@ -8,14 +8,38 @@ if (!isset($_SESSION['cart']) || empty($_SESSION['cart']) || !isset($_SESSION['t
 
 $info = $_SESSION['temp_order'];
 $user_id = $_SESSION['user_id'];
-$total = $info['total_amount'];
+$total_cart_value = 0; // Tính lại tổng giá trị giỏ hàng gốc để validate
+foreach ($_SESSION['cart'] as $item) {
+    $total_cart_value += $item['price'] * $item['qty'];
+}
+
 $payment_method = $info['payment_method'];
 $status = ($payment_method == 'VNPAY') ? 'paid' : 'pending';
 
-// Logic dùng điểm (nếu có)
+// --- LOGIC XỬ LÝ ĐIỂM (SERVER SIDE VALIDATION) ---
 $points_used = isset($info['points_used']) ? intval($info['points_used']) : 0;
-$discount_amount = $points_used * 1000; // 1 điểm = 1000đ
-$final_total = $total - $discount_amount;
+
+// Validate 1: Khách có đủ điểm không?
+$stmtUser = $conn->prepare("SELECT points FROM users WHERE id = ?");
+$stmtUser->execute([$user_id]);
+$userPoints = $stmtUser->fetchColumn();
+
+if ($points_used > $userPoints) {
+    die("Lỗi: Số điểm sử dụng vượt quá số điểm hiện có!");
+}
+
+// Validate 2: Kiểm tra giới hạn 20% (Safe Mode)
+$max_allowed_points = floor(($total_cart_value * 0.2) / 100); 
+if ($points_used > $max_allowed_points) {
+    // Nếu hack HTML để gửi số điểm cao hơn quy định -> Reset về max cho phép
+    $points_used = $max_allowed_points; 
+}
+
+$discount_amount = $points_used * 100; // 1 điểm = 100đ
+$final_total = $total_cart_value - $discount_amount;
+
+// Đảm bảo không âm
+if ($final_total < 0) $final_total = 0;
 
 try {
     $conn->beginTransaction();
@@ -28,35 +52,26 @@ try {
     // 2. Lưu Order Items
     $sql_item = "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
     $stmt_item = $conn->prepare($sql_item);
-
     foreach ($_SESSION['cart'] as $pid => $item) {
         $stmt_item->execute([$order_id, $pid, $item['qty'], $item['price']]);
     }
 
-    // 3. XỬ LÝ ĐIỂM THƯỞNG
-    
-    // Trừ điểm đã dùng (nếu có)
+    // 3. TRỪ ĐIỂM ĐÃ DÙNG (Không cộng điểm ở đây nữa!)
     if ($points_used > 0) {
         $stmt_minus = $conn->prepare("UPDATE users SET points = points - ? WHERE id = ?");
         $stmt_minus->execute([$points_used, $user_id]);
     }
 
-    // Cộng điểm mới (Chỉ cộng khi thanh toán VNPAY hoặc Admin xác nhận Paid)
-    // Tỷ lệ: 100,000 VND = 10 điểm
-    if ($status == 'paid') {
-        $points_earned = floor($final_total / 100000);
-        $stmt_add = $conn->prepare("UPDATE users SET points = points + ? WHERE id = ?");
-        $stmt_add->execute([$points_earned, $user_id]);
-    }
+    // *** LƯU Ý: Đã xóa đoạn cộng điểm ở đây theo yêu cầu Safe Mode ***
+    // Điểm sẽ được cộng ở admin/orders.php khi đơn hàng chuyển sang 'shipped'
 
     // 4. Xóa giỏ hàng
     $conn->prepare("DELETE FROM cart WHERE user_id = ?")->execute([$user_id]);
-
+    
     $conn->commit();
-
     unset($_SESSION['cart']);
     unset($_SESSION['temp_order']);
-    
+
     $_SESSION['flash_msg'] = ['msg' => 'Thanh toán thành công!', 'type' => 'success'];
     header("Location: order_success.php?id=$order_id");
 

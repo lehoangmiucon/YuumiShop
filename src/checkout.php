@@ -15,9 +15,19 @@ $subtotal = 0;
 foreach ($_SESSION['cart'] as $item) {
     $subtotal += $item['price'] * $item['qty'];
 }
-$shipping = 0; // Miễn phí ship (có thể chỉnh logic tính phí ở đây)
+$shipping = 0; 
 $total = $subtotal + $shipping;
+
+// TÍNH TOÁN GIỚI HẠN DÙNG ĐIỂM (Safe Mode)
+// 1 điểm = 100đ.
+// Tối đa giảm 20% giá trị đơn hàng.
+$max_discount_vnd = $total * 0.20; // 20% tổng đơn
+$max_points_allowed = floor($max_discount_vnd / 100); // Đổi ra số điểm tối đa được dùng
+
+// Số điểm khách thực tế có thể dùng (Min của: điểm đang có VÀ giới hạn cho phép)
+$usable_points = min($user['points'], $max_points_allowed);
 ?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -126,28 +136,31 @@ $total = $subtotal + $shipping;
             </div>
 
             <?php if ($user['points'] > 0): ?>
-            <div class="points-section" style="margin: 15px 0; padding: 10px; background: #fff3cd; border-radius: 5px;">
+            <div class="points-section" style="margin: 15px 0; padding: 15px; background: #fff3cd; border-radius: 5px; border: 1px solid #ffeeba;">
+                <div style="font-weight: bold; color: #856404; margin-bottom: 5px;">
+                    <i class="fas fa-coins"></i> Yuumi Points
+                </div>
+                <p style="font-size: 13px; margin-bottom: 10px;">
+                    Bạn có <strong><?= number_format($user['points']) ?></strong> điểm. 
+                    (1 điểm = 100đ). <br>
+                    Tối đa được dùng: <strong><?= number_format($usable_points) ?></strong> điểm cho đơn này (Max 20%).
+                </p>
+                
                 <label style="display: flex; align-items: center; cursor: pointer;">
                     <input type="checkbox" name="use_points" value="1" id="usePoints" onchange="updateTotal()">
-                    <span style="margin-left: 10px; font-size: 14px;">Dùng <strong><?= $user['points'] ?></strong> điểm (Giảm <?= number_format($user['points'] * 1000) ?>đ)</span>
+                    <span style="margin-left: 10px; font-size: 14px;">
+                        Dùng <strong><?= $usable_points ?></strong> điểm 
+                        (Giảm <span style="color:red">-<?= number_format($usable_points * 100) ?>đ</span>)
+                    </span>
                 </label>
             </div>
             <?php endif; ?>
 
-            <div class="total-row">
-                <span>Tổng cộng</span>
-                <span class="total-price" id="totalDisplay"><?= number_format($total) ?> VND</span>
-            </div>
-            
-            <input type="hidden" name="total_amount" id="totalInput" value="<?= $total ?>">
-            <input type="hidden" name="points_used" id="pointsInput" value="0">
-            
-            <button type="submit" class="btn-confirm">ĐẶT HÀNG NGAY</button>
-
             <script>
                 const originalTotal = <?= $total ?>;
-                const userPoints = <?= $user['points'] ?>;
-                const pointValue = 1000; // 1 điểm = 1000đ
+                // Lấy số điểm đã tính toán giới hạn từ PHP
+                const usablePoints = <?= isset($usable_points) ? $usable_points : 0 ?>; 
+                const pointValue = 100; // 1 điểm = 100đ (Logic mới)
 
                 function updateTotal() {
                     const checkbox = document.getElementById('usePoints');
@@ -156,14 +169,15 @@ $total = $subtotal + $shipping;
                     const pointsInput = document.getElementById('pointsInput');
 
                     if (checkbox && checkbox.checked) {
-                        const discount = userPoints * pointValue;
+                        const discount = usablePoints * pointValue;
                         const newTotal = originalTotal - discount;
-                        // Không cho âm tiền
-                        const finalTotal = newTotal > 0 ? newTotal : 0;
                         
-                        totalDisplay.innerHTML = new Intl.NumberFormat('vi-VN').format(finalTotal) + ' VND';
-                        totalInput.value = finalTotal;
-                        pointsInput.value = userPoints;
+                        // Format tiền Việt Nam
+                        totalDisplay.innerHTML = new Intl.NumberFormat('vi-VN').format(newTotal) + ' VND';
+                        totalDisplay.innerHTML += ` <br><small style='color:green; font-size:12px'>(Đã giảm ${new Intl.NumberFormat('vi-VN').format(discount)}đ)</small>`;
+                        
+                        totalInput.value = newTotal;
+                        pointsInput.value = usablePoints; // Gửi số điểm thực dùng về server
                     } else {
                         totalDisplay.innerHTML = new Intl.NumberFormat('vi-VN').format(originalTotal) + ' VND';
                         totalInput.value = originalTotal;

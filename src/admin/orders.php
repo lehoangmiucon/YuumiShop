@@ -8,26 +8,55 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
 // Xử lý cập nhật trạng thái đơn hàng
 if (isset($_POST['update_status'])) {
     $order_id = $_POST['order_id'];
-    $status = $_POST['status'];
+    $new_status = $_POST['status'];
 
-    // Lấy trạng thái cũ để tránh cộng điểm nhiều lần
-    $old_order = $conn->query("SELECT status, user_id, total_amount FROM orders WHERE id=$order_id")->fetch();
+    // Lấy thông tin đơn hàng cũ để check
+    $old_order = $conn->query("SELECT status, user_id FROM orders WHERE id=$order_id")->fetch();
 
     $stmt = $conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
-    if ($stmt->execute([$status, $order_id])) {
-        // Nếu chuyển sang PAID và trước đó chưa PAID -> Cộng điểm
-        if ($status == 'paid' && $old_order['status'] != 'paid') {
-            $points = floor($old_order['total_amount'] / 100000); // 10k = 1 điểm
-            $conn->prepare("UPDATE users SET points = points + ? WHERE id = ?")
-                 ->execute([$points, $old_order['user_id']]);
+    if ($stmt->execute([$new_status, $order_id])) {
+        
+        // --- LOGIC TÍCH ĐIỂM SAFE MODE ---
+        // Chỉ cộng điểm khi chuyển sang 'shipped' VÀ trạng thái cũ chưa phải là 'shipped' hoặc 'completed'
+        // (Để tránh cộng điểm nhiều lần nếu admin bấm update liên tục)
+        if ($new_status == 'shipped' && !in_array($old_order['status'], ['shipped', 'completed'])) {
+            
+            // 1. Lấy chi tiết các món trong đơn hàng để phân loại
+            $sql_items = "SELECT oi.quantity, oi.price, p.category 
+                          FROM order_items oi 
+                          JOIN products p ON oi.product_id = p.id 
+                          WHERE oi.order_id = ?";
+            $items = $conn->prepare($sql_items);
+            $items->execute([$order_id]);
+            
+            $total_points_earned = 0;
+
+            while ($item = $items->fetch(PDO::FETCH_ASSOC)) {
+                $item_total = $item['price'] * $item['quantity'];
+                
+                // 2. Tính điểm theo từng món
+                if ($item['category'] == 'pet') {
+                    // Thú cưng: 1 triệu = 1 điểm (Lợi nhuận thấp)
+                    $points = floor($item_total / 1000000);
+                } else {
+                    // Phụ kiện, thức ăn, v.v...: 100k = 1 điểm (Lợi nhuận cao)
+                    $points = floor($item_total / 100000);
+                }
+                $total_points_earned += $points;
+            }
+
+            // 3. Cộng điểm cho user
+            if ($total_points_earned > 0) {
+                $conn->prepare("UPDATE users SET points = points + ? WHERE id = ?")
+                     ->execute([$total_points_earned, $old_order['user_id']]);
+            }
         }
-        // THAY THẾ ALERT BẰNG FLASH MESSAGE
-        $_SESSION['flash_msg'] = ['msg' => 'Cập nhật trạng thái đơn hàng thành công!', 'type' => 'success'];
+
+        $_SESSION['flash_msg'] = ['msg' => 'Cập nhật trạng thái thành công!', 'type' => 'success'];
     } else {
-        $_SESSION['flash_msg'] = ['msg' => 'Lỗi khi cập nhật trạng thái!', 'type' => 'error'];
+        $_SESSION['flash_msg'] = ['msg' => 'Lỗi cập nhật!', 'type' => 'error'];
     }
     
-    // Redirect để kích hoạt Toast và tránh resubmit form
     header("Location: orders.php");
     exit;
 }
