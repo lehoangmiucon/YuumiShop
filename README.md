@@ -3,47 +3,47 @@ Chào mừng bạn đến với Yuumi Shop! Đây là dự án website bán thú
 
 🚀 Tính Năng Nổi Bật
 🛒 Phía Khách Hàng (Frontend)
-    Giao diện hiện đại: Thiết kế UI/UX thân thiện, responsive, tông màu xanh lá chủ đạo tạo cảm giác tươi mới.
+- Giao diện hiện đại: Thiết kế UI/UX thân thiện, responsive, tông màu xanh lá chủ đạo tạo cảm giác tươi mới.
 
-Tìm kiếm & Lọc thông minh:
+- Tìm kiếm & Lọc thông minh:
 
-Tìm kiếm theo tên sản phẩm.
+    - Tìm kiếm theo tên sản phẩm.
 
-Bộ lọc chi tiết: Loài (Chó/Mèo), Giống, Độ tuổi, Giới tính, Khoảng giá, Thương hiệu.
+    - Bộ lọc chi tiết: Loài (Chó/Mèo), Giống, Độ tuổi, Giới tính, Khoảng giá, Thương hiệu.
 
-Giỏ hàng thông minh:
+- Giỏ hàng thông minh:
 
-Tự động lưu giỏ hàng vào Database khi đăng nhập (không bị mất khi đổi thiết bị).
+    - Tự động lưu giỏ hàng vào Database khi đăng nhập (không bị mất khi đổi thiết bị).
 
-Cập nhật số lượng, tính tổng tiền tự động.
+    - Cập nhật số lượng, tính tổng tiền tự động.
 
-Thanh toán (Checkout):
+- Thanh toán (Checkout):
 
-Giao diện thanh toán tập trung (Distraction-free).
+    - Giao diện thanh toán tập trung (Distraction-free).
 
-Hỗ trợ phương thức COD và Quét mã QR (giả lập VNPAY).
+    - Hỗ trợ phương thức COD và Quét mã QR (giả lập VNPAY).
 
-Tích điểm: Tích điểm thưởng sau mỗi đơn hàng thành công.
+- Tích điểm: Tích điểm thưởng sau mỗi đơn hàng thành công.
 
-Trang cá nhân (Profile):
+- Trang cá nhân (Profile):
 
-Quản lý thông tin cá nhân, đổi mật khẩu.
+    - Quản lý thông tin cá nhân, đổi mật khẩu.
 
-Xem lịch sử đơn hàng và trạng thái vận chuyển (Real-time).
+    - Xem lịch sử đơn hàng và trạng thái vận chuyển (Real-time).
 
-Quản lý hồ sơ thú cưng (Pet Profile).
+    - Quản lý hồ sơ thú cưng (Pet Profile).
 
 👑 Phía Quản Trị (Admin Panel)
-Dashboard: Thống kê doanh thu, số lượng khách hàng, đơn hàng, biểu đồ doanh thu trực quan (Chart.js).
+- Dashboard: Thống kê doanh thu, số lượng khách hàng, đơn hàng, biểu đồ doanh thu trực quan (Chart.js).
 
-Quản lý Sản phẩm: Thêm, Sửa, Xóa sản phẩm với đầy đủ thông tin (Ảnh, Mô tả, Danh mục, Giới tính...).
+- Quản lý Sản phẩm: Thêm, Sửa, Xóa sản phẩm với đầy đủ thông tin (Ảnh, Mô tả, Danh mục, Giới tính...).
 
-Quản lý Đơn hàng: Xem chi tiết đơn hàng, cập nhật trạng thái (Pending -> Shipped -> Paid).
+- Quản lý Đơn hàng: Xem chi tiết đơn hàng, cập nhật trạng thái (Pending -> Shipped -> Paid).
 
-Hệ thống tự động: Tự động cộng điểm thưởng cho khách khi đơn hàng hoàn tất.
+- Hệ thống tự động: Tự động cộng điểm thưởng cho khách khi đơn hàng hoàn tất.
 
 🛠️ Yêu Cầu Hệ Thống
-Để chạy dự án này, bạn chỉ cần cài đặt:
+- Để chạy dự án này, bạn chỉ cần cài đặt:
 
 Docker và Docker Compose.
 
