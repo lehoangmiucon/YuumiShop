@@ -66,7 +66,6 @@ Giải nén thư mục dự án (ví dụ: YuumiShop). Cấu trúc thư mục ch
 Bước 2: Khởi chạy Docker
 Mở Terminal (hoặc CMD/PowerShell) tại thư mục YuumiShop và chạy lệnh:
 
-Bash
 
 docker-compose up -d --build
 Lệnh này sẽ tự động tải PHP, MySQL, cấu hình server và import dữ liệu từ init.sql.
