@@ -183,11 +183,14 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </a>
                             <div class="product-actions">
                                 <a href="product_detail.php?id=<?= $row['id'] ?>" class="btn" title="Xem chi tiết"><i class="fas fa-eye"></i></a>
-                                
+
                                 <form action="cart.php" method="POST" style="display:inline;">
                                     <input type="hidden" name="action" value="add">
                                     <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                    <button class="btn" title="Thêm vào giỏ"><i class="fas fa-shopping-cart"></i></button>
+                                    <input type="hidden" name="redirect" value="cart"> 
+                                    <button class="btn" title="Thêm vào giỏ">
+                                        <i class="fas fa-cart-plus"></i>
+                                    </button>
                                 </form>
                             </div>
                         </div>

@@ -85,10 +85,12 @@
                             <input type="hidden" name="action" value="add">
                             <input type="hidden" name="id" value="<?= $row['id'] ?>">
                             <input type="hidden" name="qty" value="1"> 
+                            <input type="hidden" name="redirect" value="cart">
                             <button type="submit" class="btn-buy" style="width: 100%; cursor: pointer; border: none;">
                                 <i class="fas fa-cart-plus"></i> Thêm vào giỏ
                             </button>
                         </form>
+
                     </div>
                 </div>
             </div>

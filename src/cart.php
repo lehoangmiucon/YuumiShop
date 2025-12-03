@@ -79,14 +79,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         }
     }
     
-    // Redirect lại để tránh gửi form lại (PRG Pattern)
-    // Nếu request đến từ trang products (thêm mới), quay lại trang đó
-    if (isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'cart.php') === false) {
-         header("Location: " . $_SERVER['HTTP_REFERER']);
-    } else {
-         header("Location: cart.php");
-    }
-    exit;
+    // XỬ LÝ REDIRECT (QUAN TRỌNG)
+        if (isset($_POST['redirect']) && $_POST['redirect'] == 'cart') {
+            header("Location: cart.php"); // Nếu có yêu cầu về giỏ -> Về giỏ
+        } elseif (isset($_GET['buynow'])) {
+            header("Location: checkout.php"); // Mua ngay -> Checkout
+        } else {
+            // Mặc định: Ở lại trang hiện tại (để mua tiếp)
+            if (isset($_SERVER['HTTP_REFERER'])) {
+                header("Location: " . $_SERVER['HTTP_REFERER']);
+            } else {
+                header("Location: products.php");
+            }
+        }
+        exit;
 }
 
 // Xóa sản phẩm (Giữ nguyên)

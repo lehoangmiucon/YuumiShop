@@ -69,6 +69,15 @@ include 'includes/header.php';
             <div class="main-img">
                 <img src="assets/images/<?= $product['image'] ?>" alt="<?= htmlspecialchars($product['name']) ?>">
             </div>
+            
+            <form action="cart.php" method="POST" style="margin-top: 20px;">
+                <input type="hidden" name="action" value="add">
+                <input type="hidden" name="id" value="<?= $product['id'] ?>">
+                <input type="hidden" name="qty" value="1">
+                <input type="hidden" name="redirect" value="cart"> <button type="submit" class="btn-big-buy">
+                    <i class="fas fa-shopping-bag"></i> MUA NGAY
+                </button>
+            </form>
         </div>
 
         <div class="detail-info">
@@ -114,11 +123,17 @@ include 'includes/header.php';
                     <input type="hidden" name="action" value="add">
                     <input type="hidden" name="id" value="<?= $product['id'] ?>">
                     
+                    <input type="hidden" name="redirect" value="cart">
+
                     <div class="qty-control">
                         <button type="button" onclick="this.nextElementSibling.stepDown()">-</button>
                         <input type="number" name="qty" value="1" min="1" max="10" readonly>
                         <button type="button" onclick="this.previousElementSibling.stepUp()">+</button>
                     </div>
+                    
+                    <button type="submit" class="btn-add-cart" style="background: white; color: #2ecc71; border: 1px solid #2ecc71;">
+                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ
+                    </button>
 
                 </form>
             </div>
@@ -240,12 +255,16 @@ include 'includes/header.php';
                         <span class="price"><?= number_format($rel['price']) ?> đ</span>
                     </div>
 
-                    <form action="cart.php" method="POST" style="margin-top: 10px;">
-                        <input type="hidden" name="action" value="add">
-                        <input type="hidden" name="id" value="<?= $rel['id'] ?>">
-                        <button type="submit" class="btn-buy" style="width: 100%; border: none; cursor: pointer; padding: 8px; font-size: 14px;">
-                            <i class="fas fa-cart-plus"></i> Thêm vào giỏ
-                        </button>
+                        <form action="cart.php" method="POST" style="margin-top: 10px;">
+                            <input type="hidden" name="action" value="add">
+                            <input type="hidden" name="id" value="<?= $rel['id'] ?>">
+                            <input type="hidden" name="qty" value="1">
+                            <input type="hidden" name="redirect" value="cart">
+                            
+                            <button type="submit" class="btn-buy" style="width: 100%; border: none; cursor: pointer; padding: 8px; font-size: 14px;">
+                                <i class="fas fa-cart-plus"></i> Thêm vào giỏ
+                            </button>
+                        </form>
                     </form>
                 </div>
             </div>
@@ -264,6 +283,30 @@ include 'includes/header.php';
     transition:.3s;
     }
     .btn-buy:hover { background:#27ae60; }
+
+    .btn-big-buy{
+        background: #2ecc71;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 22px; /* chữ bự hơn */
+        font-weight: 800; /* dày hơn */
+        cursor: pointer;
+        transition: 0.3s;
+        padding: 18px 28px; /* nút to bè */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        letter-spacing: 1px; /* chữ căng hơn */
+        text-transform: uppercase; /* in hoa toàn bộ */
+    }
+
+    .btn-big-buy:hover{
+        background: #27ae60;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(60, 231, 86, 0.4);
+    }
 
     .product-detail-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
     .main-img img { width: 100%; border-radius: 10px; border: 1px solid #eee; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }

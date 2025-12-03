@@ -781,6 +781,31 @@ button.agbg-border:hover, a.btn.agbg-border:hover {
 .btn-danger { background: #e74c3c; color: white; }
 .btn-danger:hover { background: #c0392b; }
 
+/* Style nút Mua Ngay To */
+    .btn-big-buy {
+        width: 100%;
+        padding: 15px;
+        background: #2ecc71; /* Màu xanh lá */
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    .btn-big-buy:hover {
+        transform: scale(1.05); /* Phóng to khi hover */
+        background: #27ae60;
+        box-shadow: 0 8px 25px rgba(46, 204, 113, 0.6);
+    }
+
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scaleUp { to { transform: scale(1); } }
 

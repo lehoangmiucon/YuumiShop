@@ -53,10 +53,20 @@ if (isset($_SESSION['user_id'])) {
                 </ul>
             </nav>
             <div class="user-actions">
-                <a href="cart.php" class="cart-btn">
-                    <i class="fas fa-shopping-cart"></i> 
-                    <span class="badge"><?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0 ?></span>
-                </a>
+                <?php
+                    // Tính tổng số lượng sản phẩm
+                    $total_qty = 0;
+                    if (isset($_SESSION['cart'])) {
+                        foreach ($_SESSION['cart'] as $item) {
+                            $total_qty += $item['qty'];
+                        }
+                    }
+                ?>
+                    <a href="cart.php" class="cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge"><?= $total_qty ?></span>
+                    </a>
+                    
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <div class="dropdown">
                         <a href="profile.php" class="user-link"><i class="fas fa-user-circle"></i> <?= htmlspecialchars($_SESSION['user_name']) ?></a>
