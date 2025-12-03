@@ -167,17 +167,17 @@ INSERT INTO products (id, name, species, category, sub_category, brand, age_grou
 (170, 'Chó Boxer', 'dog', 'pet', 'Boxer', 'Import', 'baby', 'female', 11000000, 0, 'dogs/ChoBoxer.jpg', 'Boxer khỏe mạnh, hoạt bát, thân thiện với gia đình.', 4.7, 0),
 
 -- 3. INSERT SẢN PHẨM: THỨC ĂN & PHỤ KIỆN (2xx)
-(201, 'Royal Canin Mini Puppy', 'dog', 'food', 'dry', 'Royal Canin', 'baby', 'unisex', 180000, 200000, 'dogs/food_rc_puppy.jpg', 'Dinh dưỡng cho chó con.', 5, 120),
-(202, 'Pedigree Adult Vị Bò', 'dog', 'food', 'wet', 'Pedigree', 'adult', 'unisex', 35000, 0, 'dogs/food_pedigree.jpg', 'Pate bò thơm ngon.', 4.5, 500),
-(203, 'SmartHeart Power Pack', 'dog', 'food', 'dry', 'SmartHeart', 'adult', 'unisex', 450000, 500000, 'dogs/food_smartheart.jpg', 'Tăng cơ bắp cho chó.', 4, 80),
-(204, 'Whiskas Mèo Con Vị Cá', 'cat', 'food', 'dry', 'Whiskas', 'baby', 'unisex', 110000, 130000, 'cats/food_whiskas_kitten.jpg', 'Dinh dưỡng cho mèo con.', 4.8, 300),
-(205, 'Pate Royal Canin', 'cat', 'food', 'wet', 'Royal Canin', 'adult', 'unisex', 45000, 0, 'cats/food_rc_pate.jpg', 'Pate cao cấp.', 5, 1000),
-(206, 'Hạt Me-O Vị Cá Ngừ', 'cat', 'food', 'dry', 'Me-O', 'adult', 'unisex', 90000, 0, 'cats/food_meo.jpg', 'Vị cá ngừ hấp dẫn.', 4.2, 200),
+(201, 'Royal Canin Mini Puppy', 'dog', 'food', 'dry', 'Royal Canin', 'baby', 'unisex', 180000, 200000, 'food/food_rc_puppy.jpg', 'Dinh dưỡng cho chó con.', 5, 120),
+(202, 'Pedigree Adult Vị Bò', 'dog', 'food', 'wet', 'Pedigree', 'adult', 'unisex', 35000, 0, 'food/food_pedigree.jpg', 'Pate bò thơm ngon.', 4.5, 500),
+(203, 'SmartHeart Power Pack', 'dog', 'food', 'dry', 'SmartHeart', 'adult', 'unisex', 450000, 500000, 'food/food_smartheart.jpg', 'Tăng cơ bắp cho chó.', 4, 80),
+(204, 'Whiskas Mèo Con Vị Cá', 'cat', 'food', 'dry', 'Whiskas', 'baby', 'unisex', 110000, 130000, 'food/food_whiskas_kitten.jpg', 'Dinh dưỡng cho mèo con.', 4.8, 300),
+(205, 'Pate Royal Canin', 'cat', 'food', 'wet', 'Royal Canin', 'adult', 'unisex', 45000, 0, 'food/food_rc_pate.jpg', 'Pate cao cấp.', 5, 1000),
+(206, 'Hạt Me-O Vị Cá Ngừ', 'cat', 'food', 'dry', 'Me-O', 'adult', 'unisex', 90000, 0, 'food/food_meo.jpg', 'Vị cá ngừ hấp dẫn.', 4.2, 200),
 
 -- PHỤ KIỆN & VỆ SINH (3xx)
-(301, 'Cát Vệ Sinh Nhật Bản 5L', 'cat', 'accessory', 'hygiene', 'OEM', 'all', 'unisex', 60000, 80000, 'cats/cat_litter.jpg', 'Khử mùi tốt.', 4.9, 2000),
-(302, 'Sữa Tắm SOS Cho Chó', 'dog', 'accessory', 'hygiene', 'SOS', 'all', 'unisex', 120000, 0, 'dogs/shampoo_sos.jpg', 'Lưu hương lâu.', 4.7, 150),
+(301, 'Cát Vệ Sinh Nhật Bản 5L', 'cat', 'accessory', 'hygiene', 'OEM', 'all', 'unisex', 60000, 80000, 'health/cat_litter.jpg', 'Khử mùi tốt.', 4.9, 2000),
+(302, 'Sữa Tắm SOS Cho Chó', 'dog', 'accessory', 'hygiene', 'SOS', 'all', 'unisex', 120000, 0, 'health/shampoo_sos.jpg', 'Lưu hương lâu.', 4.7, 150),
 (303, 'Vòng Cổ Chống Liếm', 'all', 'health', 'medical', 'OEM', 'all', 'unisex', 50000, 0, 'accessory/loa_co.jpg', 'Bảo vệ vết thương.', 4.5, 60),
-(304, 'Chuồng Sắt Tĩnh Điện', 'dog', 'cage', 'cage', 'OEM', 'all', 'unisex', 850000, 1000000, 'dogs/cage_big.jpg', 'Bền đẹp chắc chắn.', 5, 10),
-(305, 'Cần Câu Mèo Lông Vũ', 'cat', 'toy', 'toy', 'OEM', 'all', 'unisex', 25000, 0, 'cats/toy_cancau.jpg', 'Đồ chơi tương tác.', 4.8, 500),
-(306, 'Xương Gặm Sạch Răng', 'dog', 'food', 'treat', 'Goodies', 'all', 'unisex', 30000, 0, 'dogs/treat_bone.jpg', 'Làm sạch răng.', 4.6, 300);
+(304, 'Chuồng Sắt Tĩnh Điện', 'dog', 'cage', 'cage', 'OEM', 'all', 'unisex', 850000, 1000000, 'accessory/cage_big.jpg', 'Bền đẹp chắc chắn.', 5, 10),
+(305, 'Cần Câu Mèo Lông Vũ', 'cat', 'toy', 'toy', 'OEM', 'all', 'unisex', 25000, 0, 'toy/toy_cancau.jpg', 'Đồ chơi tương tác.', 4.8, 500),
+(306, 'Xương Gặm Sạch Răng', 'dog', 'food', 'treat', 'Goodies', 'all', 'unisex', 30000, 0, 'toy/treat_bone.jpg', 'Làm sạch răng.', 4.6, 300);
