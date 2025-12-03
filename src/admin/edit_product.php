@@ -55,10 +55,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_product'])) {
             $target_dir = "../assets/images/" . $sub_folder;
             if (!file_exists($target_dir)) mkdir($target_dir, 0777, true);
 
-            $new_filename = $sub_folder . strtolower($category) . "_" . time() . "." . $ext;
-            
+            // --- LOGIC ĐỔI TÊN MỚI ---
+            $slug_name = create_slug($name); // $name lấy từ $_POST['name']
+            $new_filename = $sub_folder . $slug_name . "-" . time() . "." . $ext;
+
             if (move_uploaded_file($_FILES['image']['tmp_name'], "../assets/images/" . $new_filename)) {
-                $image_path = $new_filename; // Cập nhật đường dẫn ảnh mới
+                $image_path = $new_filename; 
             }
         }
     }
