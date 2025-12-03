@@ -86,7 +86,7 @@
                             <input type="hidden" name="id" value="<?= $row['id'] ?>">
                             <input type="hidden" name="qty" value="1"> 
                             <button type="submit" class="btn-buy" style="width: 100%; cursor: pointer; border: none;">
-                                <i class="fas fa-cart-plus"></i> Mua ngay
+                                <i class="fas fa-cart-plus"></i> Thêm vào giỏ
                             </button>
                         </form>
                     </div>

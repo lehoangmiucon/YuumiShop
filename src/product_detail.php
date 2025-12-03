@@ -120,9 +120,6 @@ include 'includes/header.php';
                         <button type="button" onclick="this.previousElementSibling.stepUp()">+</button>
                     </div>
 
-                    <button type="submit" class="btn-add-cart agbg-border">
-                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ
-                    </button>
                 </form>
             </div>
 
@@ -247,7 +244,7 @@ include 'includes/header.php';
                         <input type="hidden" name="action" value="add">
                         <input type="hidden" name="id" value="<?= $rel['id'] ?>">
                         <button type="submit" class="btn-buy" style="width: 100%; border: none; cursor: pointer; padding: 8px; font-size: 14px;">
-                            <i class="fas fa-cart-plus"></i> Thêm ngay
+                            <i class="fas fa-cart-plus"></i> Thêm vào giỏ
                         </button>
                     </form>
                 </div>

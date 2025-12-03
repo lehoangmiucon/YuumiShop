@@ -6,39 +6,59 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     $action = $_POST['action'];
     $id = intval($_POST['id']);
 
-    // 1. THÊM VÀO GIỎ
+    // 1. THÊM VÀO GIỎ (FULL CODE)
     if ($action == 'add') {
-        // ... (Giữ nguyên logic thêm vào giỏ như cũ của Ní) ...
-        // Tui rút gọn đoạn này để tập trung vào phần Update bên dưới
+        // Lấy số lượng từ form (mặc định là 1 nếu không có)
+        $qty = isset($_POST['qty']) ? intval($_POST['qty']) : 1;
+        if ($qty < 1) $qty = 1;
+
+        // Lấy thông tin sản phẩm từ DB để đảm bảo giá đúng
         $stmt = $conn->prepare("SELECT * FROM products WHERE id = ?");
         $stmt->execute([$id]);
         $product = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if ($product) {
+            // A. Cập nhật Session Cart (Cho hiển thị ngay lập tức)
             if (!isset($_SESSION['cart'])) $_SESSION['cart'] = [];
+            
             if (isset($_SESSION['cart'][$id])) {
-                $_SESSION['cart'][$id]['qty']++;
+                $_SESSION['cart'][$id]['qty'] += $qty; // Cộng dồn số lượng
             } else {
                 $_SESSION['cart'][$id] = [
-                    'name' => $product['name'], 'price' => $product['price'],
-                    'image' => $product['image'], 'category' => $product['category'], 'qty' => 1
+                    'name' => $product['name'], 
+                    'price' => $product['price'],
+                    'image' => $product['image'], 
+                    'category' => $product['category'], 
+                    'qty' => $qty
                 ];
             }
-            // Nếu đã login, lưu vào DB
+
+            // B. Cập nhật Database Cart (Nếu đã đăng nhập)
             if (isset($_SESSION['user_id'])) {
                 $user_id = $_SESSION['user_id'];
+                
+                // Kiểm tra xem sản phẩm này đã có trong giỏ DB của user chưa
                 $check = $conn->prepare("SELECT id FROM cart WHERE user_id=? AND product_id=?");
                 $check->execute([$user_id, $id]);
-                if ($exist = $check->fetch()) {
-                    $conn->prepare("UPDATE cart SET quantity = quantity + 1 WHERE id=?")->execute([$exist['id']]);
+                $exist = $check->fetch();
+
+                if ($exist) {
+                    // Có rồi -> Update cộng thêm số lượng
+                    $conn->prepare("UPDATE cart SET quantity = quantity + ? WHERE id=?")
+                         ->execute([$qty, $exist['id']]);
                 } else {
-                    $conn->prepare("INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, 1)")->execute([$user_id, $id]);
+                    // Chưa có -> Insert dòng mới
+                    $conn->prepare("INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)")
+                         ->execute([$user_id, $id, $qty]);
                 }
             }
+            
+            // Thêm thông báo thành công (Toast) nếu muốn, hoặc redirect luôn
+            // $_SESSION['flash_msg'] = ['msg' => 'Đã thêm vào giỏ hàng!', 'type' => 'success'];
         }
     }
 
-    // 2. CẬP NHẬT SỐ LƯỢNG (+/-) -> PHẦN MỚI
+    // 2. CẬP NHẬT SỐ LƯỢNG (+/-)
     if ($action == 'update_qty') {
         $type = $_POST['type']; // 'inc' (tăng) hoặc 'dec' (giảm)
         
@@ -59,12 +79,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         }
     }
     
-    // Redirect lại để tránh gửi form lại
-    header("Location: cart.php");
+    // Redirect lại để tránh gửi form lại (PRG Pattern)
+    // Nếu request đến từ trang products (thêm mới), quay lại trang đó
+    if (isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'cart.php') === false) {
+         header("Location: " . $_SERVER['HTTP_REFERER']);
+    } else {
+         header("Location: cart.php");
+    }
     exit;
 }
 
-// Xóa sản phẩm (Logic cũ giữ nguyên)
+// Xóa sản phẩm (Giữ nguyên)
 if (isset($_GET['remove'])) {
     $id_remove = $_GET['remove'];
     unset($_SESSION['cart'][$id_remove]);
@@ -109,7 +134,7 @@ include 'includes/header.php';
                             <h3><?= htmlspecialchars($item['name']) ?></h3>
                             <div class="cart-item-meta">Danh mục: <?= ucfirst($item['category']) ?></div>
                                 <a style="color: red" href="cart.php?remove=<?= $id ?>" 
-                                data-confirm="Xóa bé này khỏi giỏ hàng? Hành động này không thể hoàn tác.">
+                                data-confirm="Bạn chắc chứ? Hành động này không thể hoàn tác.">
                                 <i class="fas fa-trash"></i> Xóa
                                 </a>
                         </div>
