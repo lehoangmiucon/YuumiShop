@@ -203,4 +203,26 @@ INSERT INTO products (id, name, species, category, sub_category, brand, age_grou
 (313, 'Bát Ăn Chống Gù', 'cat', 'accessory', 'feeding', 'OEM', 'all', 'unisex', 120000, 150000, 'accessory/bat_an_chong_gu.jpg', 'Bát ăn nghiêng giúp bảo vệ cột sống mèo.', 5, 30),
 (314, 'Nệm Tròn Lông Mịn', 'all', 'accessory', 'bedding', 'OEM', 'all', 'unisex', 250000, 300000, 'accessory/nem_tron.jpg', 'Nệm êm ái cho chó mèo ngủ ngon.', 4.9, 25),
 (315, 'Bàn Cào Móng Carton', 'cat', 'toy', 'scratching', 'OEM', 'all', 'unisex', 45000, 0, 'toy/ban_cao_mong.jpg', 'Giúp mèo mài móng, bảo vệ sofa.', 4.6, 120),
-(316, 'Balo Phi Hành Gia', 'cat', 'accessory', 'carrier', 'OEM', 'all', 'unisex', 350000, 400000, 'accessory/balo_phi_hanh_gia.jpg', 'Balo vận chuyển chó mèo tiện lợi.', 4.8, 15);
+(316, 'Balo Phi Hành Gia', 'cat', 'accessory', 'carrier', 'OEM', 'all', 'unisex', 350000, 400000, 'accessory/balo_phi_hanh_gia.jpg', 'Balo vận chuyển chó mèo tiện lợi.', 4.8, 15),
+
+-- Sản phẩm Y tế - Dành cho Chó/Mèo
+(317, 'Vaccine Phòng Dại Nobivac Rabies', 'dog', 'health', 'vaccine', 'Merck', 'all', 'unisex', 250000, 0, 'health/vaccine_rabies.jpg', 'Vaccine phòng dại an toàn, hiệu quả cao, bảo vệ 1 năm.', 4.9, 80),
+(318, 'Thuốc Xổ Giun Bayer Drontal', 'cat', 'health', 'deworm', 'Bayer', 'all', 'unisex', 80000, 95000, 'health/thuoc_xo_giun.jpg', 'Thuốc xổ giun toàn diện cho mèo, an toàn, dễ sử dụng.', 4.7, 200),
+(319, 'Dầu Gội Kháng Khuẩn Malaseb', 'dog', 'health', 'shampoo', 'Dermcare', 'all', 'unisex', 180000, 0, 'health/shampoo_khang_khuan.jpg', 'Dầu gội đặc trị viêm da, nấm ngứa, mẩn đỏ.', 4.8, 45),
+(320, 'Băng Gạc Thú Y Self-adhesive', 'all', 'health', 'first_aid', 'OEM', 'all', 'unisex', 35000, 0, 'health/bang_gac_thu_y.jpg', 'Băng gạc tự dính, không dính lông, dễ thay.', 4.5, 120),
+(321, 'Nước Răng Miệng cho Chó Tropiclean', 'dog', 'health', 'dental', 'Tropiclean', 'all', 'unisex', 120000, 150000, 'health/nuoc_ranh_mieng.jpg', 'Giảm mảng bám, hôi miệng, an toàn khi nuốt.', 4.6, 90),
+(322, 'Kem Dưỡng Móng & Da Paw Balm', 'all', 'health', 'skin_care', 'OEM', 'all', 'unisex', 65000, 0, 'health/kem_duong_mong.jpg', 'Kem dưỡng ẩm móng, da chân, chống nứt nẻ.', 4.4, 60),
+
+-- Sản phẩm Đồ chơi
+(323, 'Bóng Tennis có Dây Đàn Hồi', 'dog', 'toy', 'ball', 'OEM', 'all', 'unisex', 45000, 0, 'toy/bong_tennis_day.jpg', 'Bóng tennis gắn dây đàn hồi, chơi một mình hoặc cùng chủ.', 4.8, 150),
+(324, 'Máy Bắn Bóng Bi Tự Động cho Mèo', 'cat', 'toy', 'interactive_toy', 'OEM', 'all', 'unisex', 185000, 0, 'toy/may_ban_bong_bi.jpg', 'Máy tự động bắn bóng bi, kích thích mèo vận động, chống buồn chán.', 4.7, 65),
+(325, 'Đồ Chơi Thông Minh Puzzle Feeder cho Chó', 'dog', 'toy', 'puzzle_toy', 'Nina Ottosson', 'all', 'unisex', 220000, 0, 'toy/puzzle_feeder.jpg', 'Đồ chơi thử thách trí tuệ, giúp chó giải đố để lấy thức ăn, chống buồn chán.', 4.9, 75),
+(326, 'Lồng 3 Tầng Cao Cấp cho Mèo', 'cat', 'cage', 'multi_level', 'OEM', 'all', 'unisex', 850000, 950000, 'toy/long_meo_3_tang.jpg', 'Lồng 3 tầng với cột cào móng, giường ngủ, đồ chơi treo, không gian thoáng mát cho mèo vui chơi và nghỉ ngơi.', 4.9, 40),
+(327, 'Đĩa Bay Ném cho Chó', 'dog', 'toy', 'frisbee', 'OEM', 'all', 'unisex', 75000, 0, 'toy/dia_bay_nem.jpg', 'Đĩa bay nhựa dẻo, nhẹ, bay xa, chơi ngoài trời.', 4.6, 75),
+
+-- Sản phẩm Phụ kiện
+(328, 'Vòng Cổ LED Phát Sáng Đa Màu', 'dog', 'accessory', 'collar', 'OEM', 'all', 'unisex', 95000, 120000, 'accessory/vong_co_led.jpg', 'Vòng cổ LED chống nước, sáng đêm, an toàn khi đi dạo.', 4.8, 60),
+(329, 'Balo Vận Chuyển Thông Minh', 'cat', 'accessory', 'carrier', 'OEM', 'all', 'unisex', 320000, 0, 'accessory/balo_thong_minh.jpg', 'Balo có cửa sổ lưới, túi đựng đồ, đệm lót êm ái.', 4.9, 40),
+(330, 'Yếm Ăn Chống Vấy Bẩn', 'all', 'accessory', 'bib', 'OEM', 'all', 'unisex', 45000, 0, 'accessory/yem_an_chong_vay.jpg', 'Yếm ăn chống thấm, dễ giặt, bảo vệ lông khi ăn uống.', 4.5, 180),
+(331, 'Dây Dắt Thông Minh Tự Cuốn', 'dog', 'accessory', 'leash', 'OEM', 'all', 'unisex', 140000, 0, 'accessory/day_dat_tu_cuon.jpg', 'Dây dắt tự cuốn 5m, nút khóa an toàn, tay cầm êm.', 4.7, 55),
+(332, 'Áo Phao Cứu Sinh cho Chó Mèo Đi Bơi', 'all', 'accessory', 'life_vest', 'OEM', 'all', 'unisex', 150000, 180000, 'accessory/ao_phao_cuu_sinh.jpg', 'Áo phao cứu sinh chống nước, có dây an toàn và đai phản quang, bảo vệ thú cưng khi đi bơi hoặc du thuyền.', 4.7, 55);
