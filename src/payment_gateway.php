@@ -59,12 +59,23 @@ if ($method == 'COD') {
                     <span class="timer">Thời gian: 15:00</span>
                 </div>
                 
-                <div class="bank-grid">
-                    <div class="bank-item"><img src="https://static.wixstatic.com/media/9d8ed5_b92082f54b6143f6bacafff11d0c1d98~mv2.png/v1/fit/w_500,h_500,q_90/file.png" alt="MB"></div>
-                    <div class="bank-item"><img src="https://doozypack.vn/wp-content/uploads/2025/09/logo-techcombank-vector-3.jpg" alt="Techcom"></div>
-                    <div class="bank-item"><img src="https://hienlaptop.com/wp-content/uploads/2024/12/logo-vietcombank-vector-11.png" alt="VCB"></div>
-                    <div class="bank-item"><img src="https://taitailieu.net/wp-content/uploads/2025/10/bidv-logo-4.jpg" alt="BIDV"></div>
-                </div>
+                    <div class="bank-grid">
+                        <div class="bank-item"><img src="https://static.wixstatic.com/media/9d8ed5_b92082f54b6143f6bacafff11d0c1d98~mv2.png/v1/fit/w_500,h_500,q_90/file.png" alt="MB"></div>
+                        <div class="bank-item"><img src="https://doozypack.vn/wp-content/uploads/2025/09/logo-techcombank-vector-3.jpg" alt="Techcom"></div>
+                        <div class="bank-item"><img src="https://hienlaptop.com/wp-content/uploads/2024/12/logo-vietcombank-vector-11.png" alt="VCB"></div>
+                        <div class="bank-item"><img src="https://taitailieu.net/wp-content/uploads/2025/10/bidv-logo-4.jpg" alt="BIDV"></div>
+                        
+                        <div class="bank-item"><img src="https://cdn.haitrieu.com/wp-content/uploads/2022/01/Logo-VietinBank-CTG-Ori.png" alt="VietinBank"></div>
+                        <div class="bank-item"><img src="https://static.wixstatic.com/media/9d8ed5_4e857f9bd2dd4e35894dcce89168fc74~mv2.png/v1/fill/w_560,h_560,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/9d8ed5_4e857f9bd2dd4e35894dcce89168fc74~mv2.png" alt="VIB"></div>
+                        <div class="bank-item"><img src="https://static.wixstatic.com/media/9d8ed5_9b46446656b14efc88b058399cd81d9a~mv2.png/v1/fill/w_560,h_560,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/9d8ed5_9b46446656b14efc88b058399cd81d9a~mv2.png" alt="TPBank"></div>
+                        <div class="bank-item"><img src="https://cdn.haitrieu.com/wp-content/uploads/2022/01/Logo-ACB-Ori.png" alt="ACB"></div>
+
+                        <div class="bank-item"><img src="https://static.wixstatic.com/media/9d8ed5_c1ff4912d7eb4f8b901802156088483d~mv2.png/v1/fit/w_500,h_500,q_90/file.png" alt="Sacombank"></div>
+                        <div class="bank-item"><img src="https://dongphucvina.vn/wp-content/uploads/2023/05/logo-scb-dongphucvina.vn1_.png" alt="SCB"></div>
+                        <div class="bank-item"><img src="https://cdn.haitrieu.com/wp-content/uploads/2022/01/Icon-VPBank.png" alt="VPBank"></div>
+                        <div class="bank-item"><img src="https://cdn.haitrieu.com/wp-content/uploads/2022/01/Logo-HDBank-Ori.png" alt="HDBank"></div>
+                    </div>
+
                 <p style="margin-top: 20px; font-size: 13px; color: #888;">Lưu ý: Đây là giao diện giả lập (Demo) phục vụ đồ án. Không thực hiện giao dịch thật.</p>
             </div>
         </div>
