@@ -55,7 +55,6 @@ document.addEventListener('DOMContentLoaded', function() {
     navLinks.forEach(link => {
         if (link.getAttribute('href') === currentPath) {
             link.style.fontWeight = 'bold';
-            link.style.textDecoration = 'underline';
             if(link.closest('.sidebar')) {
                 link.style.backgroundColor = '#34495e';
                 link.style.borderLeft = '3px solid #f1c40f';
