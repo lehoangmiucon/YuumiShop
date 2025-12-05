@@ -135,14 +135,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <label><input type="radio" name="category" value="health" <?= (isset($_GET['category']) && $_GET['category']=='health')?'checked':'' ?> onchange="this.form.submit()"> Y tế</label>
                     </div>
                 </div>
-                <div class="sidebar-section">
-                    <h3><i class="fas fa-tag"></i> Thương hiệu</h3>
-                    <div class="filter-list">
-                        <label><input type="radio" name="brand" value="" <?= empty($_GET['brand'])?'checked':'' ?> onchange="this.form.submit()"> Tất cả</label>
-                        <label><input type="radio" name="brand" value="Royal Canin" <?= (isset($_GET['brand']) && $_GET['brand']=='Royal Canin')?'checked':'' ?> onchange="this.form.submit()"> Royal Canin</label>
-                        <label><input type="radio" name="brand" value="Whiskas" <?= (isset($_GET['brand']) && $_GET['brand']=='Whiskas')?'checked':'' ?> onchange="this.form.submit()"> Whiskas</label>
-                    </div>
-                </div>
+
             <?php endif; ?>
 
             <div class="sidebar-section">
