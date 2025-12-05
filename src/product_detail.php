@@ -182,7 +182,7 @@ include 'includes/header.php';
                             <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Tệ">★</label>
                         </div>
                     </div>
-                    <textarea name="comment" placeholder="Chia sẻ trải nghiệm của bạn..." style="width: 100%; padding: 10px; height: 80px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;" required></textarea>
+                    <textarea name="comment" placeholder="Chia sẻ trải nghiệm của bạn..." style="resize: none; width: 100%; padding: 10px; height: 80px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px;" required></textarea>
                     <button type="submit" name="submit_review" class="btn">Gửi đánh giá</button>
                 </form>
             </div>
