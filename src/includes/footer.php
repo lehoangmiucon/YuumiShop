@@ -51,12 +51,12 @@
         <div class="container">
             <div class="agbg-border" style="width: 100%; padding: 5px;">
                 <div style="background:white; border-radius:10px; overflow:hidden;">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.424606771363!2d106.6983803148008!3d10.77926899231976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f385570472f%3A0x1787491df6ed1d64!2sNotre%20Dame%20Cathedral%20of%20Saigon!5e0!3m2!1sen!2s!4v1646727267484!5m2!1sen!2s" 
-                        width="100%" 
-                        height="200" 
-                        style="border:0; display:block;" 
-                        allowfullscreen="" 
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.424229302633!2d106.69312131462254!3d10.778786292319224!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f385570472f%3A0x1787491df6ed1d64!2zRGluaCDEkOG7mWMgTOG6rXA!5e0!3m2!1svi!2s!4v1646812345678!5m2!1svi!2s"
+                        width="100%"
+                        height="200"
+                        style="border:0; display:block;"
+                        allowfullscreen=""
                         loading="lazy">
                     </iframe>
                 </div>

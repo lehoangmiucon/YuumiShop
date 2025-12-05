@@ -1,7 +1,7 @@
 SET NAMES utf8mb4;
 
 -- =============================================
--- 1. BẢNG USERS
+-- 1. BẢNG USERS (Đã thêm reset_token)
 -- =============================================
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -12,6 +12,9 @@ CREATE TABLE IF NOT EXISTS users (
     address TEXT,
     role ENUM('user', 'admin') DEFAULT 'user',
     points INT DEFAULT 0,
+    -- Hai cột mới cho tính năng quên mật khẩu
+    reset_token VARCHAR(255) NULL,
+    reset_token_expire DATETIME NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

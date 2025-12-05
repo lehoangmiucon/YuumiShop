@@ -182,4 +182,54 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+        // --- AJAX ADD TO CART ---
+    // Tìm tất cả các form thêm vào giỏ hàng
+    const addCartForms = document.querySelectorAll('form[action="cart.php"]');
+
+    addCartForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            // Chỉ chặn submit mặc định nếu action là 'add' (để nút Remove trong giỏ hàng vẫn chạy bình thường)
+            const actionInput = this.querySelector('input[name="action"]');
+            if (actionInput && actionInput.value === 'add') {
+                e.preventDefault(); // Chặn reload trang
+                
+                const formData = new FormData(this);
+                formData.append('ajax_mode', '1'); // Đánh dấu đây là request Ajax
+
+                // Hiệu ứng loading cho nút bấm (Optional)
+                const btn = this.querySelector('button');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ...';
+                btn.disabled = true;
+
+                fetch('cart.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === 'success') {
+                        // 1. Hiện thông báo Toast
+                        showToast(data.message, 'success');
+                        
+                        // 2. Cập nhật số lượng trên icon giỏ hàng header
+                        const cartBadge = document.querySelector('.cart-btn .badge');
+                        if(cartBadge) {
+                            cartBadge.textContent = data.total_qty;
+                            // Hiệu ứng nảy lên
+                            cartBadge.style.transform = 'scale(1.5)';
+                            setTimeout(() => cartBadge.style.transform = 'scale(1)', 200);
+                        }
+                    }
+                })
+                .catch(error => console.error('Error:', error))
+                .finally(() => {
+                    // Trả lại nút bấm như cũ
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            }
+        });
+    });
+
 });

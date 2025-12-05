@@ -107,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <i class="fas fa-eye toggle-password" onclick="togglePassword()"></i>
                         </div>
                         <div style="text-align: right; margin-top: 5px;">
-                            <a href="#" style="font-size: 13px; color: #2ecc71; text-decoration: none;">Quên mật khẩu?</a>
+                            <a href="forgot_password.php" style="font-size: 13px; color: #2ecc71; text-decoration: none;">Quên mật khẩu?</a>
                         </div>
                     </div>
 

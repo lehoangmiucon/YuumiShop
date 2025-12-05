@@ -1,100 +1,75 @@
 <?php
 require_once 'includes/db.php';
 
-// --- XỬ LÝ CART (THÊM / XÓA / CẬP NHẬT) ---
+// --- ĐOẠN CODE MỚI: XỬ LÝ AJAX ---
+// Kiểm tra nếu request là AJAX thì trả về JSON thay vì redirect
+$is_ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+// Hoặc check đơn giản qua param
+if (isset($_POST['ajax_mode'])) {
+    $is_ajax = true;
+}
+// ------------------------------------
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     $action = $_POST['action'];
     $id = intval($_POST['id']);
 
-    // 1. THÊM VÀO GIỎ (FULL CODE)
     if ($action == 'add') {
-        // Lấy số lượng từ form (mặc định là 1 nếu không có)
         $qty = isset($_POST['qty']) ? intval($_POST['qty']) : 1;
         if ($qty < 1) $qty = 1;
 
-        // Lấy thông tin sản phẩm từ DB để đảm bảo giá đúng
         $stmt = $conn->prepare("SELECT * FROM products WHERE id = ?");
         $stmt->execute([$id]);
         $product = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if ($product) {
-            // A. Cập nhật Session Cart (Cho hiển thị ngay lập tức)
+            // Logic thêm vào Session (Giữ nguyên logic cũ của bạn)
             if (!isset($_SESSION['cart'])) $_SESSION['cart'] = [];
             
             if (isset($_SESSION['cart'][$id])) {
-                $_SESSION['cart'][$id]['qty'] += $qty; // Cộng dồn số lượng
+                $_SESSION['cart'][$id]['qty'] += $qty;
             } else {
                 $_SESSION['cart'][$id] = [
-                    'name' => $product['name'], 
+                    'name' => $product['name'],
                     'price' => $product['price'],
-                    'image' => $product['image'], 
-                    'category' => $product['category'], 
+                    'image' => $product['image'],
+                    'category' => $product['category'],
                     'qty' => $qty
                 ];
             }
 
-            // B. Cập nhật Database Cart (Nếu đã đăng nhập)
+            // Logic thêm vào DB nếu đã login (Giữ nguyên code cũ)
             if (isset($_SESSION['user_id'])) {
                 $user_id = $_SESSION['user_id'];
-                
-                // Kiểm tra xem sản phẩm này đã có trong giỏ DB của user chưa
                 $check = $conn->prepare("SELECT id FROM cart WHERE user_id=? AND product_id=?");
                 $check->execute([$user_id, $id]);
                 $exist = $check->fetch();
-
                 if ($exist) {
-                    // Có rồi -> Update cộng thêm số lượng
-                    $conn->prepare("UPDATE cart SET quantity = quantity + ? WHERE id=?")
-                         ->execute([$qty, $exist['id']]);
+                    $conn->prepare("UPDATE cart SET quantity = quantity + ? WHERE id=?")->execute([$qty, $exist['id']]);
                 } else {
-                    // Chưa có -> Insert dòng mới
-                    $conn->prepare("INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)")
-                         ->execute([$user_id, $id, $qty]);
+                    $conn->prepare("INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)")->execute([$user_id, $id, $qty]);
                 }
             }
-            
-            // Thêm thông báo thành công (Toast) nếu muốn, hoặc redirect luôn
-            // $_SESSION['flash_msg'] = ['msg' => 'Đã thêm vào giỏ hàng!', 'type' => 'success'];
-        }
-    }
 
-    // 2. CẬP NHẬT SỐ LƯỢNG (+/-)
-    if ($action == 'update_qty') {
-        $type = $_POST['type']; // 'inc' (tăng) hoặc 'dec' (giảm)
-        
-        if (isset($_SESSION['cart'][$id])) {
-            if ($type == 'inc') {
-                $_SESSION['cart'][$id]['qty']++;
-            } elseif ($type == 'dec') {
-                $_SESSION['cart'][$id]['qty']--;
-                if ($_SESSION['cart'][$id]['qty'] < 1) $_SESSION['cart'][$id]['qty'] = 1; // Giữ tối thiểu là 1
-            }
-
-            // Đồng bộ DB nếu đã login
-            if (isset($_SESSION['user_id'])) {
-                $new_qty = $_SESSION['cart'][$id]['qty'];
-                $conn->prepare("UPDATE cart SET quantity = ? WHERE user_id=? AND product_id=?")
-                     ->execute([$new_qty, $_SESSION['user_id'], $id]);
+            // --- TRẢ VỀ JSON NẾU LÀ AJAX ---
+            if ($is_ajax) {
+                // Tính tổng số lượng mới
+                $total_items = 0;
+                foreach($_SESSION['cart'] as $c) $total_items += $c['qty'];
+                
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Đã thêm ' . $product['name'] . ' vào giỏ!',
+                    'total_qty' => $total_items
+                ]);
+                exit; // Dừng script ngay
             }
         }
     }
-    
-    // XỬ LÝ REDIRECT (QUAN TRỌNG)
-        if (isset($_POST['redirect']) && $_POST['redirect'] == 'cart') {
-            header("Location: cart.php"); // Nếu có yêu cầu về giỏ -> Về giỏ
-        } elseif (isset($_GET['buynow'])) {
-            header("Location: checkout.php"); // Mua ngay -> Checkout
-        } else {
-            // Mặc định: Ở lại trang hiện tại (để mua tiếp)
-            if (isset($_SERVER['HTTP_REFERER'])) {
-                header("Location: " . $_SERVER['HTTP_REFERER']);
-            } else {
-                header("Location: products.php");
-            }
-        }
-        exit;
 }
 
+// --- XỬ LÝ CART (THÊM / XÓA / CẬP NHẬT) ---
 // Xóa sản phẩm (Giữ nguyên)
 if (isset($_GET['remove'])) {
     $id_remove = $_GET['remove'];
