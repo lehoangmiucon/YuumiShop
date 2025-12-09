@@ -341,7 +341,7 @@ footer a:hover { color: #2ecc71; }
 }
 .btn:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4); }
 
-/* Responsive General */
+/* Responsive General (Cũ) */
 @media (max-width: 900px) {
     .header-wrapper { flex-direction: column; height: auto; gap: 15px; padding: 15px; }
     .header-search { width: 100%; max-width: 100%; }
@@ -782,29 +782,29 @@ button.agbg-border:hover, a.btn.agbg-border:hover {
 .btn-danger:hover { background: #c0392b; }
 
 /* Style nút Mua Ngay To */
-    .btn-big-buy {
-        width: 100%;
-        padding: 15px;
-        background: #2ecc71; /* Màu xanh lá */
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 18px;
-        font-weight: bold;
-        text-transform: uppercase;
-        cursor: pointer;
-        transition: 0.3s;
-        box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-    }
-    .btn-big-buy:hover {
-        transform: scale(1.05); /* Phóng to khi hover */
-        background: #27ae60;
-        box-shadow: 0 8px 25px rgba(46, 204, 113, 0.6);
-    }
+.btn-big-buy {
+    width: 100%;
+    padding: 15px;
+    background: #2ecc71; /* Màu xanh lá */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.btn-big-buy:hover {
+    transform: scale(1.05); /* Phóng to khi hover */
+    background: #27ae60;
+    box-shadow: 0 8px 25px rgba(46, 204, 113, 0.6);
+}
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scaleUp { to { transform: scale(1); } }
@@ -820,4 +820,130 @@ button.agbg-border:hover, a.btn.agbg-border:hover {
 @media (max-width: 900px) {
     .checkout-layout { grid-template-columns: 1fr; }
     .order-summary-box { position: static; margin-bottom: 30px; order: -1; } /* Mobile hiện summary trước */
+}
+
+/* =========================================
+   MOBILE & RESPONSIVE FIXES (ADDED BY DEV)
+   ========================================= */
+
+@media (max-width: 768px) {
+    /* 1. Header: Gom gọn lại */
+    .header-wrapper {
+        flex-direction: column;
+        height: auto;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .logo h1 a { font-size: 24px; }
+
+    .header-search {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Ẩn menu chữ, hiện icon (đơn giản hóa cho Mobile) */
+    .header-actions nav ul {
+        gap: 10px;
+        font-size: 13px;
+    }
+    
+    .header-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    /* 2. Banner (Hero Section) */
+    .hero {
+        height: 250px !important; /* Giảm chiều cao trên điện thoại */
+        background-position: center center;
+    }
+    .hero-content h1 { font-size: 28px; }
+    .hero-content p { font-size: 14px; margin: 10px 0; }
+    .btn-hero { padding: 10px 30px; font-size: 14px; }
+
+    /* 3. Danh mục (Category Grid) - Chuyển sang Grid 2 cột */
+    .category-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* 2 cột đều nhau */
+        gap: 15px;
+        padding: 0 10px;
+    }
+    
+    .cat-box, .category-card {
+        width: 100% !important; /* Bắt buộc full chiều rộng ô */
+        padding: 15px;
+    }
+    
+    .category-card i { font-size: 28px; }
+    .category-card h3 { font-size: 16px; }
+
+    /* 4. Sản phẩm (Product Grid) - Grid 2 cột chuẩn mobile */
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 cột */
+        gap: 10px; /* Khoảng cách nhỏ lại */
+    }
+
+    .product-card {
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Giảm bóng cho nhẹ */
+    }
+
+    .product-img-wrapper {
+        height: 160px; /* Giảm chiều cao ảnh */
+    }
+
+    /* Nút mua hàng trên mobile hiện luôn, không cần hover */
+    .product-actions {
+        opacity: 1;
+        bottom: 10px;
+        position: static; /* Bỏ position absolute */
+        transform: none;
+        justify-content: center;
+        margin-top: 10px;
+        display: flex; /* Hiện nút trên mobile */
+    }
+    
+    .product-info { padding: 10px; }
+    .product-info h3 a { font-size: 14px; }
+    .price { font-size: 15px; }
+
+    /* 5. Giỏ hàng & Checkout */
+    .cart-page-wrapper, .checkout-layout {
+        flex-direction: column;
+        display: flex;
+    }
+    
+    .cart-items-col, .cart-summary-col {
+        width: 100%;
+        flex: auto;
+    }
+
+    /* Ẩn bớt các cột không cần thiết trong bảng giỏ hàng trên mobile */
+    .cart-header-row { display: none; } 
+    .cart-item-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        position: relative;
+    }
+    
+    .cart-item-img { width: 100px; height: 100px; }
+    .qty-control-wrapper { margin: 15px 0; }
+    .item-total-price { margin-top: 10px; }
+    
+    /* Nút xóa nằm góc trên phải */
+    .btn-remove {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        margin: 0;
+    }
+}
+
+/* Fix cho Tablet & Desktop nhỏ */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 cột */
+    }
 }

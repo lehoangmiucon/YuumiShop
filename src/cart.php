@@ -13,6 +13,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
     // --- CASE 1: THÊM VÀO GIỎ ---
     if ($action == 'add') {
+
+            // --- BẮT BUỘC LOGIN ---
+        if (!isset($_SESSION['user_id'])) {
+            if ($is_ajax) {
+                // Trả về JSON để JS xử lý chuyển hướng
+                echo json_encode([
+                    'status' => 'login_required', 
+                    'message' => 'Vui lòng đăng nhập để mua hàng!',
+                    'redirect' => 'login.php'
+                ]);
+                exit;
+            } else {
+                // Chuyển hướng trực tiếp nếu không dùng Ajax (nút Mua ngay)
+                header("Location: login.php");
+                exit;
+            }
+        }
+
         $qty = isset($_POST['qty']) ? intval($_POST['qty']) : 1;
         if ($qty < 1) $qty = 1;
 

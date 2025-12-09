@@ -175,6 +175,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     })
                     .then(response => response.json())
                     .then(data => {
+
+                        if (data.status === 'login_required') {
+                        alert(data.message); // Thông báo nhẹ
+                        window.location.href = data.redirect; // Chuyển sang trang login
+                        return;
+                    }
+
                         if (data.status === 'success') {
                             showToast(data.message, 'success');
                             const cartBadge = document.querySelector('.cart-btn .badge');
